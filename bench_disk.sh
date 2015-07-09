@@ -48,7 +48,7 @@ fi
 do_seq_write() {
     # sequential write
     echo -n "  writing..."
-    dd if=$dev_in of=$tmp_file bs=1M count=1024 conv=fdatasync,notrunc &>/tmp/$$
+    dd if=$dev_in of=$path/$tmp_file bs=1M count=1024 conv=fdatasync,notrunc &>/tmp/$$
     seq_write=$(grep -v records /tmp/$$)
     w_speed=$(grep -v records /tmp/$$ | awk '{print $8" "$9 }')
     w_size=$(grep -v records /tmp/$$ | awk '{print $3" "$4}' | tr -d '()')
@@ -64,7 +64,7 @@ do_flush() {
 do_seq_read() {
     # sequential read
     echo -n "  reading..."
-    dd if=$tmp_file of=$dev_out bs=$block_size count=$count &> /tmp/$$
+    dd if=$path/$tmp_file of=$dev_out bs=$block_size count=$count &> /tmp/$$
     seq_read=$(grep -v records /tmp/$$)
     r_speed=$(grep -v records /tmp/$$ | awk '{print $8" "$9 }')
     r_size=$(grep -v records /tmp/$$ | awk '{print $3" "$4}' | tr -d '()')
@@ -74,7 +74,7 @@ do_seq_read() {
 do_cached_read() {
     # cached sequential read
     echo -n "  reading (cached)..."
-    dd if=$tmp_file of=$dev_out bs=$block_size count=$count &> /tmp/$$
+    dd if=$path/$tmp_file of=$dev_out bs=$block_size count=$count &> /tmp/$$
     cached_read=$(grep -v records /tmp/$$)
     rc_speed=$(grep -v records /tmp/$$ | awk '{print $8" "$9 }')
     rc_size=$(grep -v records /tmp/$$ | awk '{print $3" "$4}' | tr -d '()')
@@ -111,6 +111,7 @@ echo "dd results:"
 #echo " "
 
 # prettier output
+printf "  path    $path\n"
 printf "  write   $w_speed \t($w_size in $w_time)\n"
 printf "  read    $r_speed \t($r_size in $r_time)\n"
 printf "  cached  $rc_speed \t($rc_size in $rc_time)\n"
