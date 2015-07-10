@@ -1,9 +1,14 @@
 #!/bin/bash
 
-# bench_disk.sh - a rough disk benchmark tool using dd (bonnie, ioping)
+# bench_disk.sh - a rough disk benchmark tool using dd
 
 # author  : Chad Mayfield (code@chadmayfield.com)
 # license : gplv3
+
+# TODO:
+#   - fix sudo issue... doesn't work
+#   - add user defined bs and count
+#   - add bonnie++ and ioping functions
 
 path=$1
 #log_file=/var/log/diskbench.log
@@ -27,9 +32,10 @@ fi
 
 # don't mess with permissions, just switch to root
 if [ $UID -ne 0 ]; then
-    echo "Must be run as root, please enter your password:"
-    sudo -ik $0 $@
-    exit 5
+#    echo "Must be run as root, please enter your password:"
+#    sudo -ik $0 $@
+    echo "Must be run as root!"
+    exit 1
 fi
 
 # TODO: added arg for size of tempfile and iterations
