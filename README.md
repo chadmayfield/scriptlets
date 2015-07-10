@@ -37,3 +37,16 @@ beginning speed/latency tests...
   Speed from SoftLayer, SJ CA USA     :  48.0MB/s        (8.217 ms latency)
 done
 ```
+
+* **entropy_ck.sh** - calculate the Shannon entropy of a string (if using with a password use a space before the command execution to override storing it in the history buffer"
+
+```
+chad@myhost:~$  ./entropy_ck.sh "Tr0ub4dor&3"
+passwd length:   11
+entropy/char:    3.27761343682
+actual entropy:  36.053747805 bits
+chad@myhost:~$  ./entropy_ck.sh "correcthorsebatterystaple"
+passwd length:   25
+entropy/char:    3.36385618977
+actual entropy:  84.0964047444 bits
+```
