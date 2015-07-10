@@ -2,10 +2,10 @@
 
 A bunch of sciptlets to automate tasks that I do often.
 
-* **bench_disk.sh** - a rough disk benchmarking utiltiy using dd
+* **bench_disk.sh** - a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
 
 ```
-chad@myhost:~$ sudo ./bench_disk.sh /tmp/
+chad@myhost:~$ sudo ./bench_disk.sh /tmp/ | tee -a bench_disk_20150709_2204.log
 [sudo] password for chad:
 beginning dd tests:
   writing...done
@@ -19,10 +19,10 @@ dd results:
   cached  293 MB/s      (1.1 GB in 3.6592 s)
 ```
 
-* **bench_net.sh** - a rough bandwidth benchmarking utility using wget
+* **bench_net.sh** - a rough bandwidth benchmarking utility using wget (use tee to add to logfile and keep historical data)
 
 ```
-chad@myhost:~$ ./bench_net.sh
+chad@myhost:~$ ./bench_net.sh | tee -a bench_net_20150709_2205.log
 beginning speed/latency tests...
   Speed from SoftLayer, DC USA        :  7.74MB/s        (77.392 ms latency)
   Speed from Edis, Frankfurt DE       :  2.31MB/s        (154.037 ms latency)
