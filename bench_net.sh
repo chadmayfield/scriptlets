@@ -46,6 +46,7 @@ array["Edis, Frankfurt DE    "]="http://de.edis.at/100MB.test"
 #array["Edis, Warsaw PL       "]="http://pl.edis.at/100MB.test"
 
 echo "beginning speed/latency tests..."
+echo "  start time: $(date)"
 
 for i in "${!array[@]}"
 do
@@ -64,6 +65,7 @@ do
     echo -ne "  Speed from $i   :  ${speed}\t (${cmd})\n"
 done
 
+echo "  end time: $(date)"
 echo "done"
 
 #EOF
