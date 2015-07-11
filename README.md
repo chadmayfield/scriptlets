@@ -50,3 +50,5 @@ passwd length:   25
 entropy/char:    3.36385618977
 actual entropy:  84.0964047444 bits
 ```
+
+* **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
