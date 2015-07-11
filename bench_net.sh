@@ -13,7 +13,6 @@
 #   - parameterize to test by region
 #   - add ipv6 support
 
-
 tmpfile="/tmp/$0.$$"
 options="-O /dev/null"
 
@@ -27,7 +26,7 @@ array["SoftLayer, SJ CA USA  "]="http://speedtest.sjc01.softlayer.com/downloads/
 array["SoftLayer, SEA WA USA "]="http://speedtest.sea01.softlayer.com/downloads/test100.zip"
 array["Linode, Dallas TX USA "]="http://speedtest.dallas.linode.com/100MB-dallas.bin"
 array["Linode, Atlanta GA USA"]="http://speedtest.atlanta.linode.com/100MB-atlanta.bin"
-array["DigitalOCean, NY USA  "]="http://speedtest-nyc1.digitalocean.com/100mb.test"
+array["DigitalOcean, NY USA  "]="http://speedtest-nyc1.digitalocean.com/100mb.test"
 array["Linode, Newark NJ USA "]="http://speedtest.newark.linode.com/100MB-newark.bin"
 array["SoftLayer, DC USA     "]="http://speedtest.wdc01.softlayer.com/downloads/test100.zip"
 array["OVH, Beauharnois QC CA"]="http://bhs.proof.ovh.net/files/100Mb.dat"
@@ -71,6 +70,7 @@ do
     echo -ne "  Speed from $i : ${speed}\t(${cmd})\n"
 done
 
+rm -f $tmpfile
 echo "  end time: $(date)"
 echo "done"
 
