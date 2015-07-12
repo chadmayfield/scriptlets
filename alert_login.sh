@@ -5,6 +5,8 @@
 # author  : Chad Mayfield (code@chadmayfield.com)
 # license : gplv3
 
+# add script with +x perms to /etc/profile.d/
+
 # TODO:
 #   - fix script so when root logs in it doesn't throw erros
 #   - fix certain ip's (such as 70.103.189.14) rDNS may be broken
