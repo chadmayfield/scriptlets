@@ -52,3 +52,23 @@ actual entropy:  84.0964047444 bits
 ```
 
 * **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
+
+* **vagrant_update_boxes.sh** - a quick update script for all of my vagrant boxes
+
+```
+chad@myhost:~$ ./vagrant_update_boxes.sh 
+Found Vagrantfile at: ./centos_7/Vagrantfile
+Updating box: "centos/7"
+==> default: Checking for updates to 'centos/7'
+    default: Latest installed version: 1702.01
+    default: Version constraints: 
+    default: Provider: virtualbox
+==> default: Box 'centos/7' (v1702.01) is running the latest version.
+Found Vagrantfile at: ./rancher/os-vagrant/Vagrantfile
+Updating box: "rancherio/rancheros"
+==> rancher-01: Checking for updates to 'rancherio/rancheros'
+    rancher-01: Latest installed version: 0.4.3
+    rancher-01: Version constraints: >=0.4.1
+    rancher-01: Provider: virtualbox
+==> rancher-01: Box 'rancherio/rancheros' (v0.4.3) is running the latest version.
+```
