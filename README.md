@@ -53,6 +53,21 @@ actual entropy:  84.0964047444 bits
 
 * **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
 
+* **update_myrepos.sh** - an automated update script that iterates through all subdirectories (only one deep) under the current tree and pull any changes to the git repos there. assumes ssh is used (not https) to pull/push repos.
+
+```
+chad@myhost:~$ ./update_myrepos.sh 
+Found repo: git@github.com:chadmayfield/chadmayfield.github.io.git
+Pulling latest changes...
+Already up-to-date.
+Found repo: git@github.com:chadmayfield/compliance_checks.git
+Pulling latest changes...
+Already up-to-date.
+Found repo: git@github.com:chadmayfield/scriptlets.git
+Pulling latest changes...
+Already up-to-date.
+```
+
 * **vagrant_update_boxes.sh** - a quick update script for all of my vagrant boxes
 
 ```
