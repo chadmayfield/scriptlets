@@ -38,6 +38,17 @@ beginning speed/latency tests...
 done
 ```
 
+* **checksum.sh** - checksum (md5/sha1) all regular files under a directory tree
+```
+chad@myhost:~$ ./checksum.sh sha1 /Users/chad/Books/
+chad@myhost:~$ head -n5 ~/checksums.3075.txt 
+63902c99e287b05463f46be3551aa37260cd5665  /Users/chad/Books//Docker_Cookbook.pdf
+dff0c59900275673c29fde9fc97de390c3edd2c3  /Users/chad/Books//Docker_in_Practice.pdf
+52332d0a159305d3c55deaacfda9f02fd48b80c2  /Users/chad/Books//Unix_Power_Tools_Third_Edition.pdf
+8b09f063a6db3e73424c9af678f5256bc5b1f562  /Users/chad/Books//Using_Docker.pdf
+8fc938c3e5b73daad3cbcdb75c06653e957db854  /Users/chad/Books//Introducing_Go.pdf
+```
+
 * **entropy_ck.sh** - calculate the Shannon entropy of a string (if using with a password use a space before the command execution to override storing it in the history buffer"
 
 ```
