@@ -1,6 +1,6 @@
 # scriptlets
 
-A bunch of sciptlets to automate tasks that I do often.
+A bunch of sciptlets to automate tasks that I do often.  (The experimental/ directory is just some fun scripts that are not finished that I just wanna do for fun.)
 
 * **bench_disk.sh** - a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
 
