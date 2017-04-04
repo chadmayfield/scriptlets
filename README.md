@@ -64,6 +64,16 @@ actual entropy:  84.0964047444 bits
 
 * **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
 
+* **remove_spaces.sh** - removes spaces in file names under path
+
+```
+chad@myhost:~$ ./remove_spaces.sh test
+test/Docker Cookbook.pdf -> test/Docker.Cookbook.pdf
+test/Unix Power Tools Third Edition.pdf -> test/Unix.Power.Tools.Third.Edition.pdf
+test/Using Docker.pdf -> test/Using.Docker.pdf
+test/Version Control with Git Second Edition.pdf -> test/Version.Control.with.Git.Second.Edition.pdf
+```
+
 * **update_myrepos.sh** - an automated update script that iterates through all subdirectories (only one deep) under the current tree and pull any changes to the git repos there. assumes ssh is used (not https) to pull/push repos.
 
 ```
