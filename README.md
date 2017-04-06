@@ -74,6 +74,43 @@ test/Using Docker.pdf -> test/Using.Docker.pdf
 test/Version Control with Git Second Edition.pdf -> test/Version.Control.with.Git.Second.Edition.pdf
 ```
 
+* **sysinfo.sh** - show system information for various oses
+
+Apple macOS Sierra
+```
+macbookpro:~ $ ./cpuinfo.sh 
+------------------
+System Information
+------------------
+Current date: Wed Apr  5 21:54:58 MDT 2017
+Hostname: macbookpro.local
+  Uptime: 1 day 11:33 hours
+  Load average: 1.44 1.31 1.28
+  Kernel: Darwin 16.5.0
+CPU Information: Intel(R) Core(TM) i5-6360U CPU @ 2.00GHz
+  Processor Cores: 2
+  Virtual Processors: 4
+Memory Information: 7950M used (1819M wired), 239M unused.
+``` 
+
+Red Hat Enterprise Linux 7.3
+```
+[chad@fileserver ~]$ ./cpuinfo.sh 
+------------------
+System Information
+------------------
+Current date: Wed Apr  5 21:56:59 MDT 2017
+Hostname: fileserver.localhost
+  Uptime: 28 days  1:12 hours
+  Load average: 3.96, 1.48, 0.84
+  Kernel: Linux 3.10.0-514.10.2.el7.x86_64
+CPU Information: Intel(R) Xeon(R) CPU E3-1245 v3 @ 3.40GHz
+  Processor Cores: 4
+  Virtual Processors: 8
+Memory Information: 1.2G used (of 23G), 1.2G unused. 
+```
+
+
 * **update_myrepos.sh** - an automated update script that iterates through all subdirectories (only one deep) under the current tree and pull any changes to the git repos there. assumes ssh is used (not https) to pull/push repos.
 
 ```
