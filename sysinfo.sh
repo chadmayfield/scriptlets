@@ -14,23 +14,23 @@ UP=$(uptime | awk 'BEGIN{FS="up |,"}{print $2$3" hours"}')
 PLATFORM=$(uname -sr)
 
 if [[ $OSTYPE =~ "darwin" ]]; then
-	LOAD=$(uptime | awk 'BEGIN{FS="averages:"}{print $2}')
+    LOAD=$(uptime | awk 'BEGIN{FS="averages:"}{print $2}')
     CPU=$(sysctl -n machdep.cpu.brand_string)
-#	PHYSPROC=$(sysctl -n hw.physicalcpu)
-	PROCORES=$(sysctl -n machdep.cpu.core_count)
+#    PHYSPROC=$(sysctl -n hw.physicalcpu)
+    PROCORES=$(sysctl -n machdep.cpu.core_count)
     VIRTPROC=$(sysctl -n hw.ncpu)
-	FLAGS=$(sysctl -n machdep.cpu.extfeatures)
-	FLAGS+=$(sysctl -n machdep.cpu.leaf7_features)
-#	TTL_MEM=$(ps -caxm -orss= | awk '{ sum += $1 } END { print "Resident Set Size: " sum/1024 " MiB" }')
+    FLAGS=$(sysctl -n machdep.cpu.extfeatures)
+    FLAGS+=$(sysctl -n machdep.cpu.leaf7_features)
+#   TTL_MEM=$(ps -caxm -orss= | awk '{ sum += $1 } END { print "Resident Set Size: " sum/1024 " MiB" }')
     MEM=$(top -l 1 -s 0 | grep PhysMem | awk -F ': ' '{print $2}') 
 elif [[ $OSTYPE =~ "linux" ]]; then
-	LOAD=$(uptime | awk 'BEGIN{FS="average:"}{print $2}')
-	CPU=$(cat /proc/cpuinfo | grep '^model name' | uniq | awk -F ": " '{print $2}')
-#	PHYSPROC=`grep 'physical id' /proc/cpuinfo | sort | uniq | wc -l`
+    LOAD=$(uptime | awk 'BEGIN{FS="average:"}{print $2}')
+    CPU=$(cat /proc/cpuinfo | grep '^model name' | uniq | awk -F ": " '{print $2}')
+#    PHYSPROC=`grep 'physical id' /proc/cpuinfo | sort | uniq | wc -l`
     PROCORES=`grep 'cpu cores' /proc/cpuinfo | uniq | awk 'BEGIN{FS=": "}{print $2}'`
-	VIRTPROC=`grep ^processor /proc/cpuinfo | wc -l`
-	FLAGS=`cat /proc/cpuinfo | grep 'flags' | uniq | awk 'BEGIN{FS=": "}{print $2}'`
-	MEM=$(free -th | grep Mem: | awk '{print $3" used (of "$2"), "$3" unused. "}')
+    VIRTPROC=`grep ^processor /proc/cpuinfo | wc -l`
+    FLAGS=`cat /proc/cpuinfo | grep 'flags' | uniq | awk 'BEGIN{FS=": "}{print $2}'`
+    MEM=$(free -th | grep Mem: | awk '{print $3" used (of "$2"), "$3" unused. "}')
 else
     echo "ERROR: Unknown \$OSTYPE!"
 fi
