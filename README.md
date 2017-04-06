@@ -79,27 +79,32 @@ test/Version Control with Git Second Edition.pdf -> test/Version.Control.with.Gi
 Apple macOS Sierra
 ```
 macbookpro:~ $ ./cpuinfo.sh 
-------------------
-System Information
-------------------
-Current date: Wed Apr  5 21:54:58 MDT 2017
-Hostname: macbookpro.local
-  Uptime: 1 day 11:33 hours
-  Load average: 1.44 1.31 1.28
+-----------------------------------
+Current System Information Snapshot
+-----------------------------------
+Current date: Thu Apr  6 13:10:32 MDT 2017
+Hostname: macbookpro.lan
+  Uptime: 2 days  2:49 hours
+  Load average: 1.05 1.27 1.27
   Kernel: Darwin 16.5.0
-CPU Information: Intel(R) Core(TM) i5-6360U CPU @ 2.00GHz
+Prcoessor Information: Intel(R) Core(TM) i5-6360U CPU @ 2.00GHz
   Processor Cores: 2
   Virtual Processors: 4
-Memory Information: 7950M used (1819M wired), 239M unused.
+Memory Information: 8.00 gigabytes
+  Memory stats: 7088M used (1684M wired), 1101M unused.
+Network Information 
+  Internal Address: 192.168.1.22
+  External Address: 206.170.114.132 (mobile-206-170-114-132.myvzw.net)
+-----------------------------------
 ``` 
 
 Red Hat Enterprise Linux 7.3
 ```
 [chad@fileserver ~]$ ./cpuinfo.sh 
-------------------
-System Information
-------------------
-Current date: Wed Apr  5 21:56:59 MDT 2017
+-----------------------------------
+Current System Information Snapshot
+-----------------------------------
+Current date: Thu Apr  6 19:19:48 UTC 2017
 Hostname: fileserver.localhost
   Uptime: 28 days  1:12 hours
   Load average: 3.96, 1.48, 0.84
@@ -107,7 +112,12 @@ Hostname: fileserver.localhost
 CPU Information: Intel(R) Xeon(R) CPU E3-1245 v3 @ 3.40GHz
   Processor Cores: 4
   Virtual Processors: 8
-Memory Information: 1.2G used (of 23G), 1.2G unused. 
+Memory Information: 23.17 gigabytes
+  Memory stats: 1.2G used (of 23G), 20.8G unused.
+Network Information 
+  Internal Address: 192.168.1.251
+  External Address: 161.170.14.11 (161-170-014-011.xmission.com)
+-----------------------------------
 ```
 
 
