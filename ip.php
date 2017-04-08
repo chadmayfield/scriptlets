@@ -4,30 +4,40 @@
 //          used in shell scripts with cURL and wget... (quick 'n dirty)
 
 ob_start("ob_gzhandler");
-
 $ip = @$_SERVER['REMOTE_ADDR'];
 $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
 $useragent = @$_SERVER['HTTP_USER_AGENT'];
-$allowed = "xmission.com"; //allowed hostname
-//$allowed = "slkc.qwest.net"; //allowed hostname
+// allowed hostnames
+$allowed = array("xmission.com", "comcast.net", "slkc.qwest.net");
 
-// match last segments of hostname for eval
+// match last two segments of hostname for eval
 preg_match('/[^.]+\.[^.]+$/', $hostname, $matches);
 //preg_match('/[^.]+\.[^.]+\.[^.]+$/', $hostname, $matches);
 
-// to stop possible abuse, evaluate if allowed hostname
-// matches actual hostname and allow/disallow user
-if ($allowed == $matches[0]){
-    // ip.php?extended
-    if (isset($_GET['extended'])) {
-        echo "IP Address:\t" . $ip . "<br />";
-        echo "Hostname:\t" . $hostname . "<br />";
-        echo "User Agent:\t" . $useragent . "<br />";
-    } else {
-        echo $ip;
+// check if $matches equals an element in $allowed array
+$i = 0;
+foreach ($allowed as $value) {
+    // to stop possible abuse, evaluate if allowed hostname
+    // matches actual hostname and allow/disallow user
+    if (strcmp($matches[0], $value) == 0) {
+        // if ip.php?extended is passed, show it, otherwise just the ip
+        if (isset($_GET['extended'])) {
+            echo "IP Address:\t" . $ip . "<br />\r\n";
+            echo "Hostname:\t" . $hostname . "<br />\r\n";
+            echo "User Agent:\t" . $useragent . "<br />\r\n";
+            break;
+        } else {
+            echo $ip;
+            break;
+        }
     }
-} else {
-    echo "Unauthorized host, user access denied.";
+    
+    $i++;
+
+    // if we get through the entire loop and don't match throw error
+    if ( sizeof($allowed) == $i ) {
+        echo "Unauthorized, user access denied.";
+    }
 }
 
 ?>
