@@ -116,7 +116,6 @@ Current Connections: 192.168.110.213
 Red Hat Enterprise Linux 7.3
 ```
 [chad@fileserver ~]$ ./sysinfo.sh --connections 
-[root@file chad]# ./sysinfo.sh --connections
 ------------------------------------------------------------------------
 Current Date:        Fri Apr  7 18:57:35 MDT 2017
 Hostname:            fileserver.local
