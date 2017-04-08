@@ -159,7 +159,16 @@ Pulling latest changes...
 Already up-to-date.
 Found repo: git@github.com:chadmayfield/scriptlets.git
 Pulling latest changes...
-Already up-to-date.
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From github.com:chadmayfield/scriptlets
+   fa418b1..66db9c9  master     -> origin/master
+Updating fa418b1..66db9c9
+Fast-forward
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 ```
 
 * **vagrant_update_boxes.sh** - a quick update script for all of my vagrant boxes
