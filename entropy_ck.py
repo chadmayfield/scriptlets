@@ -5,8 +5,12 @@
 # author  : Chad Mayfield (code@chadmayfield.com)
 # license : gplv3
 
-import sys
-import math
+import os, sys, math
+
+sname = os.path.basename(sys.argv[0])
+if len(sys.argv) == 1:
+    print "Usage: " + sname  + " <password>"
+    sys.exit()
 
 # modified from http://stackoverflow.com/a/2979208
 def entropy(string):
