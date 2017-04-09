@@ -96,7 +96,7 @@ Core Count:          2
 Virtual Cores:       4
 Total Memory:        8.00 gigabytes
 Memory Used:         7956M used (1864M wired), 234M unused.
-Internal IP:         192.168.110.213 (Tx/Rx:  bytes)
+Internal IP:         192.168.110.213 (Tx/Rx: 94544383 bytes)
 External IP:         166.72.33.98 (166-72-33-98.xmission.com)
 Docker Version:      17.03.1-ce
 Containers:          CONTAINER ID       NAME 
@@ -130,7 +130,7 @@ Processor:           Intel(R) Xeon(R) CPU E3-1245 v3 @ 3.40GHz
 Core Count:          4
 Virtual Cores:       8
 Total Memory:        23.30 gigabytes
-Memory Used:         Mem: used (of 23G), 1.1G unused. 
+Memory Used:         1.2G used (of 23G), 6.5G unused. 
 Internal IP:         192.168.110.30 (Tx/Rx: 121.3 GiB)
 External IP:         166.72.33.98 (166-72-33-98.xmission.com)
 Docker Version:      1.12.6
