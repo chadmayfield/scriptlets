@@ -85,7 +85,7 @@ if [[ $OSTYPE =~ "darwin" ]]; then
     mem=$(top -l 1 -s 0 | grep PhysMem | awk -F ': ' '{print $2}') 
 
     # additional network information
-    txrx="$(netstat -ib -I en0 | grep -i $(hostname) | awk '{print $10}') bytes"
+    txrx="$(netstat -ib -I en0 | grep -i $int_ip | awk '{print $10}') bytes"
     conn=$(netstat -anf inet | awk '{print $5}' | grep [0-9] | \
        grep -vE 'x|127.0.0.1' | awk -F . '{print $1"."$2"."$3"."$4}' |sort -u)
 
@@ -125,7 +125,7 @@ elif [[ $OSTYPE =~ "linux" ]]; then
 
     # get memory info
     ttl_mem=$(free -tm | grep Mem: | awk '{printf "%.2f gigabytes\n",$2/1024}')
-    mem=$(free -th |grep Mem:|awk '{print $1" used (of "$2"), "$3" unused. "}')
+    mem=$(free -th |grep Mem: |awk '{print $3" used (of "$2"), "$4" unused. "}')
 
     # additional network information
     txrx=$(ifconfig | grep -A3 $int_ip | awk '/RX/ {print $6" "$7}' | \
@@ -184,7 +184,7 @@ if [[ $1 =~ "connections" ]]; then
     for i in ${conn[@]}
     do
         rdns=$(host $i | awk '{print $NF}' | uniq)
-        if [[ $rdns =~ "NXDOMAIN" ]]; then
+        if [[ $rdns =~ (NXDOMAIN|PTR) ]]; then
             printf "%-20s %s\n" " " "$i"
         else
             printf "%-20s %s (%s)\n" " " "$i" "$rdns"
