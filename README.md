@@ -64,6 +64,26 @@ actual entropy:  84.0964047444 bits
 
 * **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
 
+* **randomize_mac.sh** - randomize mac addresses on macOS and Linux. This will help circumvent free wifi time limits in coffee shops and such. (This was actually an experiment until I begain using it more and more. I know about and have used machanger and spoofMAC, but I wanted to use something I wrote!)
+```
+macbookpro:~ $ ifconfig en0 | grep ether
+	ether 87:41:13:1e:e3:ab 
+macbookpro:~ $ sudo ./randomize_mac.sh 
+Default Interface:   en0
+Default MAC Address: 87:41:13:1e:e3:ab
+Random MAC Address:  00:50:56:04:a3:f1
+Succeessfully changed MAC!
+macbookpro:~ $ ifconfig en0 | grep ether
+	ether 00:50:56:04:a3:f1 
+macbookpro:~ $ sudo ./randomize_mac.sh --revert
+Original MAC address found: 87:41:13:1e:e3:ab
+Reverting it back...
+Succeessfully changed MAC!
+macbookpro:~ $ ifconfig en0 | grep ether
+	ether 87:41:13:1e:e3:ab
+```
+
+
 * **remove_spaces.sh** - removes spaces in file names under path
 
 ```
