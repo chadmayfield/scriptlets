@@ -184,7 +184,7 @@ if [[ $1 =~ "connections" ]]; then
     for i in ${conn[@]}
     do
         rdns=$(host $i | awk '{print $NF}' | uniq)
-        if [[ $rdns =~ (NXDOMAIN|PTR) ]]; then
+        if [[ $rdns =~ (NXDOMAIN|PTR|record|SERVFAIL) ]]; then
             printf "%-20s %s\n" " " "$i"
         else
             printf "%-20s %s (%s)\n" " " "$i" "$rdns"
