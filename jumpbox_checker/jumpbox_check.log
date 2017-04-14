@@ -1,0 +1,154 @@
+Thu May 14 17:43:52 MDT 2009 ======== Beginning JumpBox Update Check ========
+Thu May 14 17:43:52 MDT 2009 ERROR: Your list of stored JumpBoxes does
+Thu May 14 17:43:52 MDT 2009 not exist.  Please create it and continue.
+Thu May 14 17:43:52 MDT 2009 FAILURE: $STORED = ./stored_jumpboxes.txt
+Thu May 14 17:44:23 MDT 2009 ======== Beginning JumpBox Update Check ========
+Thu May 14 17:44:23 MDT 2009 ERROR: The $SAVETO directory does not exist!
+Thu May 14 17:44:23 MDT 2009 FAILURE: $SAVETO = /home/chasdafd
+Thu May 14 17:44:47 MDT 2009 ======== Beginning JumpBox Update Check ========
+Thu May 14 17:44:48 MDT 2009 Checking for new JumpBox: deki
+Thu May 14 17:44:48 MDT 2009 JumpBox found! deki v1.1.1
+Thu May 14 17:44:48 MDT 2009 JumpBox updated!  Starting download...
+Thu May 14 17:44:48 MDT 2009 GET: http://downloads2.jumpbox.com/deki-1.1.1.zip
+Thu May 14 17:44:48 MDT 2009 Download complete!
+Thu May 14 17:44:48 MDT 2009 Checking for new JumpBox: knowledgetree
+Thu May 14 17:44:48 MDT 2009 JumpBox found! knowledgetree v1.1.4
+Thu May 14 17:44:48 MDT 2009 JumpBox updated! Starting download...
+Thu May 14 17:44:48 MDT 2009 GET: http://downloads2.jumpbox.com/knowledgetree-1.1.4.zip
+Thu May 14 17:44:48 MDT 2009 Download complete!
+Thu May 14 17:44:48 MDT 2009 Checking for new JumpBox: lampd
+Thu May 14 17:44:48 MDT 2009 JumpBox found! lampd v1.1.6
+Thu May 14 17:44:48 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:48 MDT 2009 Checking for new JumpBox: mysqld
+Thu May 14 17:44:48 MDT 2009 JumpBox found! mysqld v1.1.5
+Thu May 14 17:44:48 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:49 MDT 2009 Checking for new JumpBox: jasperbi
+Thu May 14 17:44:49 MDT 2009 JumpBox found! jasperbi v1.1.0
+Thu May 14 17:44:49 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:49 MDT 2009 Checking for new JumpBox: sugarcrm5
+Thu May 14 17:44:49 MDT 2009 JumpBox found! sugarcrm5 v1.1.12
+Thu May 14 17:44:49 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:49 MDT 2009 Checking for new JumpBox: joomla15
+Thu May 14 17:44:49 MDT 2009 JumpBox found! joomla15 v1.1.9
+Thu May 14 17:44:49 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:49 MDT 2009 Checking for new JumpBox: joomla
+Thu May 14 17:44:49 MDT 2009 JumpBox found! joomla v1.1.4
+Thu May 14 17:44:49 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:50 MDT 2009 Checking for new JumpBox: cacti
+Thu May 14 17:44:50 MDT 2009 JumpBox found! cacti v1.1.5
+Thu May 14 17:44:50 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:50 MDT 2009 Checking for new JumpBox: wordpress
+Thu May 14 17:44:50 MDT 2009 JumpBox found! wordpress v1.1.11
+Thu May 14 17:44:50 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:50 MDT 2009 Checking for new JumpBox: mediawiki
+Thu May 14 17:44:50 MDT 2009 JumpBox found! mediawiki v1.1.10
+Thu May 14 17:44:50 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:50 MDT 2009 Checking for new JumpBox: openfire
+Thu May 14 17:44:50 MDT 2009 JumpBox found! openfire v1.1.4
+Thu May 14 17:44:50 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:51 MDT 2009 Checking for new JumpBox: drupal6
+Thu May 14 17:44:51 MDT 2009 JumpBox found! drupal6 v1.1.10
+Thu May 14 17:44:51 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:51 MDT 2009 Checking for new JumpBox: drupal
+Thu May 14 17:44:51 MDT 2009 JumpBox found! drupal v1.1.12
+Thu May 14 17:44:51 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:51 MDT 2009 Checking for new JumpBox: dokuwiki
+Thu May 14 17:44:51 MDT 2009 JumpBox found! dokuwiki v1.1.4
+Thu May 14 17:44:51 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:51 MDT 2009 Checking for new JumpBox: moinmoin
+Thu May 14 17:44:51 MDT 2009 JumpBox found! moinmoin v1.1.9
+Thu May 14 17:44:51 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:54 MDT 2009 Checking for new JumpBox: mantis
+Thu May 14 17:44:54 MDT 2009 JumpBox found! mantis v1.1.6
+Thu May 14 17:44:54 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:55 MDT 2009 Checking for new JumpBox: orangehrm
+Thu May 14 17:44:55 MDT 2009 JumpBox found! orangehrm v1.1.2
+Thu May 14 17:44:55 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:55 MDT 2009 Checking for new JumpBox: redmine
+Thu May 14 17:44:55 MDT 2009 JumpBox found! redmine v1.1.9
+Thu May 14 17:44:55 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:55 MDT 2009 Checking for new JumpBox: magento
+Thu May 14 17:44:55 MDT 2009 JumpBox found! magento v1.1.7
+Thu May 14 17:44:55 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:55 MDT 2009 Checking for new JumpBox: nagios3
+Thu May 14 17:44:55 MDT 2009 JumpBox found! nagios3 v1.1.2
+Thu May 14 17:44:55 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:55 MDT 2009 Checking for new JumpBox: punbb
+Thu May 14 17:44:56 MDT 2009 JumpBox found! punbb v1.1.8
+Thu May 14 17:44:56 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:56 MDT 2009 Checking for new JumpBox: rubyonrails
+Thu May 14 17:44:56 MDT 2009 JumpBox found! rubyonrails v1.1.2
+Thu May 14 17:44:56 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:56 MDT 2009 Checking for new JumpBox: alfresco
+Thu May 14 17:44:56 MDT 2009 JumpBox found! alfresco v1.1.2
+Thu May 14 17:44:56 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:56 MDT 2009 Checking for new JumpBox: liferay
+Thu May 14 17:44:56 MDT 2009 JumpBox found! liferay v1.1.1
+Thu May 14 17:44:56 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:56 MDT 2009 Checking for new JumpBox: lappd
+Thu May 14 17:44:56 MDT 2009 JumpBox found! lappd v1.1.1
+Thu May 14 17:44:56 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:57 MDT 2009 Checking for new JumpBox: zenoss
+Thu May 14 17:44:57 MDT 2009 JumpBox found! zenoss v1.1.2
+Thu May 14 17:44:57 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:57 MDT 2009 Checking for new JumpBox: tikiwiki
+Thu May 14 17:44:57 MDT 2009 JumpBox found! tikiwiki v1.1.7
+Thu May 14 17:44:57 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:57 MDT 2009 Checking for new JumpBox: bugzilla
+Thu May 14 17:44:57 MDT 2009 JumpBox found! bugzilla v1.1.5
+Thu May 14 17:44:57 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:57 MDT 2009 Checking for new JumpBox: glpi
+Thu May 14 17:44:57 MDT 2009 JumpBox found! glpi v1.1.3
+Thu May 14 17:44:57 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:58 MDT 2009 Checking for new JumpBox: postgresqld
+Thu May 14 17:44:58 MDT 2009 JumpBox found! postgresqld v1.1.1
+Thu May 14 17:44:58 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:58 MDT 2009 Checking for new JumpBox: moodle
+Thu May 14 17:44:58 MDT 2009 JumpBox found! moodle v1.1.7
+Thu May 14 17:44:58 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:58 MDT 2009 Checking for new JumpBox: tracks
+Thu May 14 17:44:58 MDT 2009 JumpBox found! tracks v1.1.0
+Thu May 14 17:44:58 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:58 MDT 2009 Checking for new JumpBox: pmwiki
+Thu May 14 17:44:58 MDT 2009 JumpBox found! pmwiki v1.1.5
+Thu May 14 17:44:58 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:58 MDT 2009 Checking for new JumpBox: otrs
+Thu May 14 17:44:58 MDT 2009 JumpBox found! otrs v1.1.7
+Thu May 14 17:44:58 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:59 MDT 2009 Checking for new JumpBox: trac
+Thu May 14 17:44:59 MDT 2009 JumpBox found! trac v1.1.10
+Thu May 14 17:44:59 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:59 MDT 2009 Checking for new JumpBox: vtigercrm
+Thu May 14 17:44:59 MDT 2009 JumpBox found! vtigercrm v1.1.4
+Thu May 14 17:44:59 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:59 MDT 2009 Checking for new JumpBox: silverstripe
+Thu May 14 17:44:59 MDT 2009 JumpBox found! silverstripe v1.1.5
+Thu May 14 17:44:59 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:44:59 MDT 2009 Checking for new JumpBox: nagios
+Thu May 14 17:44:59 MDT 2009 JumpBox found! nagios v1.1.5
+Thu May 14 17:44:59 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:00 MDT 2009 Checking for new JumpBox: gallery
+Thu May 14 17:45:00 MDT 2009 JumpBox found! gallery v1.1.1
+Thu May 14 17:45:00 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:00 MDT 2009 Checking for new JumpBox: sugarcrm
+Thu May 14 17:45:00 MDT 2009 JumpBox found! sugarcrm v1.1.4
+Thu May 14 17:45:00 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:00 MDT 2009 Checking for new JumpBox: phpbb
+Thu May 14 17:45:00 MDT 2009 JumpBox found! phpbb v1.1.6
+Thu May 14 17:45:00 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:00 MDT 2009 Checking for new JumpBox: openldap
+Thu May 14 17:45:00 MDT 2009 JumpBox found! openldap v1.1.1
+Thu May 14 17:45:00 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:01 MDT 2009 Checking for new JumpBox: movabletype
+Thu May 14 17:45:01 MDT 2009 JumpBox found! movabletype v1.1.8
+Thu May 14 17:45:01 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:01 MDT 2009 Checking for new JumpBox: projectpier
+Thu May 14 17:45:01 MDT 2009 JumpBox found! projectpier v1.1.4
+Thu May 14 17:45:01 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:01 MDT 2009 Checking for new JumpBox: dimdim
+Thu May 14 17:45:01 MDT 2009 JumpBox found! dimdim v1.1.0
+Thu May 14 17:45:01 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:01 MDT 2009 Checking for new JumpBox: snaplogic
+Thu May 14 17:45:01 MDT 2009 JumpBox found! snaplogic v1.1.1
+Thu May 14 17:45:01 MDT 2009 JumpBox already stored. Skipping download.
+Thu May 14 17:45:01 MDT 2009 JumpBox update check completed!
