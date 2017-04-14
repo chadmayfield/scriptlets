@@ -64,6 +64,27 @@ actual entropy:  84.0964047444 bits
 
 * **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
 
+* *measure_latency.sh* - a quick and dirty latency measurement tool
+
+NOTE: This is just a quick tool to use so you don't have to bust out of the terminal, if you want historic views, use smokeping.
+
+```
+chad@macbookpro:~$ ./measure_latency.sh yahoo.com
+ERROR: You must supply a hostname/IP to measure & a packet count!
+  e.g. ./measure_latency.sh <hostname/ip> <count>
+chad@macbookpro:~$ ./measure_latency.sh 8.8.4.4 10
+latency to 8.8.4.4 with 10 packets is: 74.735 ms
+chad@macbookpro:~$ ./measure_latency.sh msn.com 10
+latency measurement failed: 100.0% packet loss
+
+-- or on linux --
+
+ubuntu@ubuntu-xenial:~$ ./measure_latency.sh 8.8.8.8 10
+latency to 8.8.8.8 with 10 packets is: 203.783 ms
+ubuntu@ubuntu-xenial:~$ ./measure_latency.sh msn.com 10
+latency measurement failed: 100% packet loss
+```
+
 * **randomize_mac.sh** - randomize mac addresses on macOS and Linux. This will help circumvent free wifi time limits in coffee shops and such. (This was actually an experiment until I begain using it more and more. I know about and have used machanger and spoofMAC, but I wanted to use something I wrote!)
 ```
 macbookpro:~ $ ifconfig en0 | grep ether
