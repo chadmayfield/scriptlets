@@ -64,7 +64,7 @@ actual entropy:  84.0964047444 bits
 
 * **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
 
-* *measure_latency.sh* - a quick and dirty latency measurement tool
+* **measure_latency.sh** - a quick and dirty latency measurement tool
 
 NOTE: This is just a quick tool to use so you don't have to bust out of the terminal, if you want historic views, use smokeping.
 
