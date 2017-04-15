@@ -1,0 +1,14 @@
+ /*
+* Green:  80c65a  ddf8cc      Yellow: ffcc33  fff4c2
+* Blue:   3366cc  c3d9ff      Orange: ff9900  ffeac0
+* Purple: 49188f  c2bddd      Gray:   676767  e8e8e8
+ */
+
+#ssb {border-top:1px solid #80c65a; background: #ddf8cc; width: 70%; }
+#ssb div{float:left;padding:4px 0 0;padding-left:4px;padding-right:.5em; }
+#ssb p{text-align:right;white-space:nowrap;margin:.1em 0;padding:.2em; zoom:1;}
+#ssb h1 h2 h3 { font: 12px; color: 'Lucinda Grande', Geneva, Verdana, Arial, Helvetica, sans-serif; color: #80c65a; }
+
+#bsf,#ssb{background:#ddf8cc}
+#bsf,#ssb{margin:10px 0}
+#bsf{border-bottom:1px solid #6b90da;padding:1.8em 0}
