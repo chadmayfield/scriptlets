@@ -81,7 +81,7 @@ rpm -Uvh *.rpm
 # clean up
 yum clean all
 # upgrade
-yum upgrade
+yum upgrade -y
 # update GRUB2-config with new info
 grub2-mkconfig -o /boot/grub2/grub.cfg
 
