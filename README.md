@@ -5,7 +5,7 @@ A bunch of sciptlets to automate tasks that I do often.
 Directories;
 * **diceare/** - mirror of the famous diceware lists that can be easily downloaded for use with other scripts
 * **experimental/** - contains test script or expirements that have been written while writing other scripts, may or may not work. Not meant to be used, just kept around as reference or fun.
-* **old_n_deprecated/ ** - old, broken, or otherwise deprecated scripts/apps that have been written and are broken or EOL. 
+* **old_n_deprecated/** - old, broken, or otherwise deprecated scripts/apps that have been written and are broken or EOL. 
 
 ### bench_disk.sh
 a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
