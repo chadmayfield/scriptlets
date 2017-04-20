@@ -1,8 +1,14 @@
 # scriptlets
 
-A bunch of sciptlets to automate tasks that I do often.  (The experimental/ directory is just some fun scripts that are not finished that I just wanna do for fun.)
+A bunch of sciptlets to automate tasks that I do often.
 
-* **bench_disk.sh** - a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
+Directories;
+* **diceare/** - mirror of the famous diceware lists that can be easily downloaded for use with other scripts
+* **experimental/** - contains test script or expirements that have been written while writing other scripts, may or may not work. Not meant to be used, just kept around as reference or fun.
+* **old_n_deprecated/ ** - old, broken, or otherwise deprecated scripts/apps that have been written and are broken or EOL. 
+
+### bench_disk.sh
+a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
 
 ```
 chad@myhost:~$ sudo ./bench_disk.sh /tmp/ | tee -a bench_disk_20150709_2204.log
@@ -19,7 +25,8 @@ dd results:
   cached  293 MB/s      (1.1 GB in 3.6592 s)
 ```
 
-* **bench_net.sh** - a rough bandwidth benchmarking utility using wget (use tee to add to logfile and keep historical data)
+### bench_net.sh
+a rough bandwidth benchmarking utility using wget (use tee to add to logfile and keep historical data)
 
 ```
 chad@myhost:~$ ./bench_net.sh | tee -a bench_net_20150709_2205.log
@@ -38,7 +45,8 @@ beginning speed/latency tests...
 done
 ```
 
-* **checksum.sh** - checksum (md5/sha1) all regular files under a directory tree
+### checksum.sh
+checksum (md5/sha1) all regular files under a directory tree
 ```
 chad@myhost:~$ ./checksum.sh sha1 /Users/chad/Books/
 chad@myhost:~$ head -n5 ~/checksums.3075.txt 
@@ -49,7 +57,8 @@ dff0c59900275673c29fde9fc97de390c3edd2c3  /Users/chad/Books//Docker_in_Practice.
 8fc938c3e5b73daad3cbcdb75c06653e957db854  /Users/chad/Books//Introducing_Go.pdf
 ```
 
-* **entropy_ck.sh** - calculate the Shannon entropy of a string (if using with a password use a space before the command execution to override storing it in the history buffer"
+### entropy_ck.sh
+calculate the Shannon entropy of a string (if using with a password use a space before the command execution to override storing it in the history buffer"
 
 ```
 chad@myhost:~$  ./entropy_ck.sh "Tr0ub4dor&3"
@@ -62,13 +71,16 @@ entropy/char:    3.36385618977
 actual entropy:  84.0964047444 bits
 ```
 
-* **chkrootkit.sh** - run chkrootkit then log & email results (chkrootkit is required)
+### chkrootkit.sh
+run chkrootkit then log & email results (chkrootkit is required)
 
-* **convert_rhel2centos.sh** - convert RHEL to CentOS in less that 100 lines of bash! This will take an install of RHEL 6 or 7 and convert it to CentOS 6 or 7, respectively.  (NOTE: This is pretty 'hacky' so I wouldn't use the machine in production.)
+### convert_rhel2centos.sh
+convert RHEL to CentOS in less that 100 lines of bash! This will take an install of RHEL 6 or 7 and convert it to CentOS 6 or 7, respectively.  (NOTE: This is pretty 'hacky' so I wouldn't use the machine in production.)
 
 A gist of the script output can be seen here: https://gist.github.com/chadmayfield/b7816a17ff665a6ddbcc8b5e7f64703d
 
-* **measure_latency.sh** - a quick and dirty latency measurement tool
+### measure_latency.sh
+a quick and dirty latency measurement tool
 
 NOTE: This is just a quick tool to use so you don't have to bust out of the terminal, if you want historic views, use smokeping.
 
@@ -89,7 +101,8 @@ ubuntu@ubuntu-xenial:~$ ./measure_latency.sh msn.com 10
 latency measurement failed: 100% packet loss
 ```
 
-* **randomize_mac.sh** - randomize mac addresses on macOS and Linux. This will help circumvent free wifi time limits in coffee shops and such. (This was actually an experiment until I begain using it more and more. I know about and have used machanger and spoofMAC, but I wanted to use something I wrote!)
+### randomize_mac.sh
+randomize mac addresses on macOS and Linux. This will help circumvent free wifi time limits in coffee shops and such. (This was actually an experiment until I begain using it more and more. I know about and have used machanger and spoofMAC, but I wanted to use something I wrote!)
 ```
 macbookpro:~ $ ifconfig en0 | grep ether
 	ether 87:41:13:1e:e3:ab 
@@ -109,7 +122,8 @@ macbookpro:~ $ ifconfig en0 | grep ether
 ```
 
 
-* **remove_spaces.sh** - removes spaces in file names under path
+### remove_spaces.sh
+removes spaces in file names under path
 
 ```
 chad@myhost:~$ ./remove_spaces.sh test
@@ -119,7 +133,8 @@ test/Using Docker.pdf -> test/Using.Docker.pdf
 test/Version Control with Git Second Edition.pdf -> test/Version.Control.with.Git.Second.Edition.pdf
 ```
 
-* **sysinfo.sh** - show system information for various oses, including load, uptime, cpu information, docker version and running containers, and network information. When used with the `--connections` option it will show all established connections with hostname if possible.
+### sysinfo.sh
+show system information for various oses, including load, uptime, cpu information, docker version and running containers, and network information. When used with the `--connections` option it will show all established connections with hostname if possible.
 
 (As of now works with macOS Sierra, RHEL, CentOS, Ubuntu, Debian)
 
@@ -191,7 +206,8 @@ Current Connections: 192.168.110.3
 ```
 
 
-* **update_myrepos.sh** - an automated update script that iterates through all subdirectories (only one deep) under the current tree and pull any changes to the git repos there. assumes ssh is used (not https) to pull/push repos.
+### update_myrepos.sh
+an automated update script that iterates through all subdirectories (only one deep) under the current tree and pull any changes to the git repos there. assumes ssh is used (not https) to pull/push repos.
 
 ```
 chad@myhost:~$ ./update_myrepos.sh 
@@ -215,7 +231,8 @@ Fast-forward
  1 file changed, 1 insertion(+), 1 deletion(-)
 ```
 
-* **userinfo.php** - simple userinfo script from php, formatted friendly for getting information via the terminal.  can be called very easily;
+### userinfo.php
+simple userinfo script from php, formatted friendly for getting information via the terminal.  can be called very easily;
 
 > curl -s example.com/userinfo.php | awk '/REMOTE_ADDR/ {print $2}'
 
@@ -258,7 +275,8 @@ REQUEST_TIME_FLOAT             1491962862.7097
 REQUEST_TIME                   1491962862
 ```
 
-* **vagrant_update_boxes.sh** - a quick update script for all of my vagrant boxes
+### vagrant_update_boxes.sh
+a quick update script for all of my vagrant boxes
 
 ```
 chad@myhost:~$ ./vagrant_update_boxes.sh 
