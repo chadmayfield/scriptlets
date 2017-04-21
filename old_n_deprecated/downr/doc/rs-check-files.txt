@@ -1,0 +1,50 @@
+
+
+SAMPLE URL: http://rapidshare.com/files/301254665/4C.-.Aftms.part1.rar 
+INPUT: http://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=checkfiles_v1&files=301254665&filenames=4C.-.Aftms.part1.rar
+OUTPUT: 301254665,4C.-.Aftms.part1.rar,104857600,535,1,tg,0
+
+WITH MD5SUM
+SAMPLE URL: http://rapidshare.com/files/301254665/4C.-.Aftms.part1.rar 
+INPUT: http://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=checkfiles_v1&files=301254665&filenames=4C.-.Aftms.part1.rar&incmd5=1
+OUTPUT: 301254665,4C.-.Aftms.part1.rar,104857600,535,1,l32,3ADBBD3EB5D4A9C9C92CD594C4968534
+
+----------------------------
+http://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=subroutine (finalpoints=points)
+https://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=subroutine (finalpoints=points*2 (this means using SSL doubles points!))
+
+Additional parameters can be added via http://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=subroutine&param1=value1&param2=value2
+
+
+----------------------------
+subroutine=checkfiles_v1
+
+Description:	
+		Gets status details about a list of given files. (files parameter 
+		limited to 3000 bytes. filenames parameter limited to 30000 bytes.)
+
+Parameters:	files=comma separated list of file ids
+		filenames=comma separated list of the respective filename. Example: 
+		files=50444381,50444382 filenames=test1.rar,test2.rar incmd5=if set 
+		to 1, field 7 is the hex-md5 of the file. This will double your 
+		points! If not given, all md5 values will be 0
+
+Reply fields:	
+		1:File ID
+		2:Filename
+		3:Size (in bytes. If size is 0, this file does not exist.)
+		4:Server ID
+		5:Status integer, which can have the following numeric values:
+			0=File not found
+			1=File OK (Anonymous downloading)
+			2=File OK (TrafficShare direct download without any logging)
+			3=Server down
+			4=File marked as illegal
+			5=Anonymous file locked, because it has more than 10 downloads already
+			6=File OK (TrafficShare direct download with enabled logging. Read our privacy policy to see what is logged.)
+		
+		6:Short host (Use the short host to get the best download mirror: 		
+			http://rs$serverid$shorthost.rapidshare.com/files/$fileid/$filename)
+		7:md5 (See parameter incmd5 in parameter description above.)
+
+Reply format:	integer,string,integer,integer,integer,string,string

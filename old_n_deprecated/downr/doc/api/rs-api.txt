@@ -1,0 +1,745 @@
+RapidShare API - Last updates and revision history on bottom of this document
+
+This is the final technical documentation to the RapidShare API for coders.
+
+If you are no programmer: Technical means, this documentation's purpose is solely to give coders (people creating cool tools) a documentation on how to
+implement the back-end API in their tools, so their programs get even cooler and easier to be created, so you can use RapidShare even more comfortably.
+If you know a good coder, do not hesitate to advise him or her of this documentation.
+
+Since RapidShare is always extending its functionality, new routines will be added from time to time and existing routines will be adjusted slightly.
+We will take care that existing routines will not be changed too much, so that existing programs keep running. Tell us if you are missing an API call
+and we will see what we can do.
+
+Routines giving back many values are subject of many changes. For example the routine getaccountdetails_v1 returns many key-value pairs. Those pairs
+might be sorted differently in the future. Some values might disappear, new values may appear. Make sure your program can handle this changes without
+a need for an update. If a value disappears, you should assume a "0" value. If a new value appears, your program should just ignore it. Your program
+must not rely on the sort-order of the list.
+
+In case we plan major adjustments, we will create a different function-call for it. This is reflected by the appendix "_v1" "_v2" etc. However, if there
+are security issues by design in existing functions, we reserve the right to disable or change existing functions without prior notice. So check back
+here from time to time.
+
+WARNING: Since RapidShare serves a very large community, programming errors in popular tools might cause an unwanted DDOS attack to the RapidShare servers.
+When programming tools, always keep in mind that your tool might be used by millions of people at the same time. So make sure you do not kill our API servers,
+which might cause some big financial issues on your side. Always make sure your program STOPS retrying a failed request after 3 tries. Always make sure you
+do not make more API calls than necessary. Our servers use a IP-based credit system, which will ban a IP making very many small requests or just a few
+unnecessary big requests. Everything you do will add POINTS to your IP address. If you exceed a certain point limit, API calls are denied for 30 minutes.
+If you exceed this limit multiple times, your account is banned as well. This especially happens with listfiles_v1 abuses on accounts having many files.
+How many points your calls will add to your balance depend heavily on the routine you call. For example calling nextuploadserver_v1 adds nearly no points
+to your balance, while listfiles_v1 is certainly the most expensive routine if you have many files in your account and you request a very detailed list.
+
+http://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=subroutine (finalpoints=points)
+or https://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=subroutine (finalpoints=points*2 (this means using SSL doubles points!))
+
+Additional parameters can be added via http://api.rapidshare.com/cgi-bin/rsapi.cgi?sub=subroutine&param1=value1&param2=value2
+
+In case you get an error, the reply always starts with "ERROR: " followed by a plain string telling you what is wrong. You should always check this.
+The best is if you just output the string to the user. The string is self-explanatory and every user should know what went wrong.
+
+Be careful when giving too many wrong passwords. The password brute-force protection will block your IP when you enter too many wrong passwords and/or killcodes.
+This protection has nothing to do with the point system mentioned above and works independently.
+
+Every routine taking "login,password,type" parameters also accepts the parameter "cookie". If you give "cookie=63AC34AA98443H....", RapidShare will decrypt
+the cookie and overwrite the parameters "login,password,type" with the parameters stored in the encrypted cookie. this can be understood as a login override.
+
+
+
+subroutine=nextuploadserver_v1
+Description:	Gives the next available upload server to use without fearing rejection.
+Parameters:	None
+Reply fields:	1:The upload server. Complete it with rs$uploadserver.rapidshare.com
+Reply format:	integer
+
+
+
+subroutine=getapicpu_v1
+Description:	Gives the CURRENT and MAX api cpu value for your IP address. If you reach MAX points, all further API requests from your IP will be blocked.
+		Every minute the server will subtract 1000 points from your balance.
+Parameters:	None
+Reply fields:	1:How many points you already have. (CURRENT)
+		2:How many points you may have before getting blocked. (MAX)
+Reply format:	integer,integer
+
+
+
+subroutine=checkincomplete_v1
+Description:	You need this to resume an incomplete file. You can try without it, but you might get rejected if the file is invalid.
+		This routine needs the file ID and the kill code for authentication.
+Parameters:	fileid=The file ID in question
+		killcode=The killcode of the file ID
+Reply fields:	1:The size already saved on the server. You should use this to resume the upload, so you know where to start.
+Reply format:	integer
+
+
+
+subroutine=renamefile_v1
+Description:	Renames a file to something else. Be aware that your users will not be able to download the file anymore by using the old link!
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		fileid=The file ID in question
+		newname=A new name for the file. Invalid characters will automatically be converted to "_"
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=movefilestorealfolder_v1
+Description:	Moves one or more files to a RealFolder. (files parameter limited to 10000 bytes)
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		files=comma separated list of file ids
+		realfolder=ID of the RealFolder
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=renamerealfolder_v1
+Description:	Renames an existing RealFolder.
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		realfolder=ID of the RealFolder
+		newname=New name of the RealFolder (limited to 100 chars.)
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=deletefiles_v1
+Description:	Deletes one or more files forever. (files parameter limited to 10000 bytes)
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		files=comma separated list of file ids, or ONE RealFolder ID. This deletes all files in the RealFolder ID
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=addrealfolder_v1
+Description:	Adds a new RealFolder
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		name=Name of the folder (Max. 100 byte)
+		parent=ID of parent folder. 0=root
+Reply fields:	1:RealFolder ID
+		OR
+		1:-1 (if no space left, it returns -1)
+Reply format:	integer
+
+
+
+subroutine=delrealfolder_v1
+Description:	Deletes an existing RealFolder (without the files, so just the RealFolder entry)
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		realfolder=ID of the RealFolder
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=moverealfolder_v1
+Description:	Changes the parent ID of an existing RealFolder
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		realfolder=ID of the RealFolder
+		newparent=New parent ID
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=listfiles_v1
+Description:	Lists all files in a given format in a given RealFolder or in all RealFolders. Warning: Flooding the server with this routine will block your IP!
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		realfolder=ID of the real folder to list files from. 0=root all=All folders
+		filename=Optional. Give a filename to get only results where filename=$filename. Good for finding dupes.
+		fileids=Optional. Give a comma-separated list of file IDs to get only results with the corresponding file IDs. fileids=1545615,1345154,215143
+		fields=A comma separated list of database columns you want to receive. You will always receive the fileid.
+			Example: fields=downloads,size will reply many lines in the format "$fileid,$downloads,$size\n"
+			The following file columns are available: downloads,lastdownload,filename,size,killcode,serverid,type,x,y,realfolder,bodtype,killdeadline
+			The following history columns are available: uploadtime,ip,md5hex
+			Warning: History columns will always be appended after the file columns. Do NOT use them if you don't need to, since this will boost your points!
+			Example: fields=size,filename,md5hex,killcode,ip,x,y will result in "$size,$filename,$killcode,$x,$y,$md5hex,$ip
+			Format: Everything is human readable except timestamps, which are unix timestamps (integers).
+		order=Reply will be ordered by this column. All file columns are valid. (optional. Avoid this parameter to pay less penalty points!)
+		desc=0 or 1. 1 means, the result will be ordered descending. (optional)
+Reply fields:	1:fileid
+		2:dynamically adjusted
+		OR
+		"NONE" (if no results, it returns "NONE")
+Reply format:	integer,fields (fields depending on fields you request)
+
+
+
+subroutine=listrealfolders_v1
+Description:	Returns all available RealFolders and their topology.
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+Reply fields:	1:RealFolder ID
+		2:Parent RealFolder ID
+		3:Name of the folder
+		OR
+		"NONE" (if no results, it returns NONE)
+Reply format:	integer,integer,string
+
+
+
+subroutine=getaccountdetails_v1
+Description:	Returns key-pair values for the specific account. Warning: The order may change, and we will probably add or remove values in the future.
+		You should make sure that your program does not stop working if new values appear or existing values disappear.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=password of the login
+		withrefstring=1 (Optional. If given, the reply also contains refstring=STRING. You need this string to earn money. See FAQ for further information.)
+		withcookie=1 (Optional. If given, the reply also contains cookie=STRING. You need this string only if you need to set a valid encryped cookie.)
+Reply fields:	1:key 2:value
+Reply format:	string=string or integer\n...
+Reply example:	TYPE=PREM:
+			accountid=$accountid (integer)
+			type=$type (prem or col)
+			servertime=$time (integer)
+			addtime=$addtime (integer)
+			validuntil=$validuntil (integer)
+			username=$username (string)
+			directstart=$directstart (integer)
+			protectfiles=$protectfiles (integer)
+			rsantihack=$rsantihack (integer)
+			plustrafficmode=$plustrafficmode (integer)
+			mirrors=$mirrors (string)
+			jsconfig=$jsconfig (string)
+			email=$email (string)
+			lots=$lots (integer)
+			fpoints=$fpoints (integer)
+			ppoints=$ppoints (integer)
+			curfiles=$curfiles (integer)
+			curspace=$curspace (integer)
+			bodkb=$bodkb (integer)
+			premkbleft=$premkbleft (integer)
+			ppointrate=$ppointrate (integer in cents)
+			refstring=$refstring (string, optional. See 'withrefstring' above.)
+			cookie=$cookie (string. optional. See 'withcookie' above.)
+		TYPE=COL:
+			accountid=$accountid (integer)
+			type=$type (prem or col)
+			servertime=$time (integer)
+			addtime=$addtime (integer)
+			username=$username (string)
+			email=$email (string)
+			jsconfig=$jsconfig (string)
+			rsantihack=$rsantihack (integer)
+			lots=$lots (integer)
+			fpoints=$fpoints (integer)
+			ppoints=$ppoints (integer)
+			curfiles=$curfiles (integer)
+			curspace=$curspace (integer)
+			ppointrate=$ppointrate (integer in cents)
+			refstring=$refstring (string, optional. See 'withrefstring' above.)
+			cookie=$cookie (string. optional. See 'withcookie' above.)
+
+
+
+subroutine=setaccountdetails_v1
+Description:	Changes the settings of an account. Every parameter is mandatory except "newpassword". Thus, not transmitting a parameter means setting it to "".
+		Enabled RSAntiHAck causes a block if you try to change email, username, password or plustrafficmode.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+		newpassword=Sets a new password. Optional. Skipping this will not change the password at all.
+		email=Email address to use. Mandatory. Skipping results in an error.
+		username=Optional username to use. If skipped, the username alias will be deleted.
+		mirror=2 character mirror in segment 1. Skipping results in random mirror selection. Ignored on type=col
+		mirror2=2 character mirror in segment 2. Skipping results in random mirror selection. Ignored on type=col
+		mirror3=2 character mirror in segment 3. Skipping results in random mirror selection. Ignored on type=col
+		directstart=1 or 0. Downloads will start instantly. Skipping this means setting it to 0. Ignored on type=col
+		jsconfig=A custom value, which can be set as you like. Max. 64 alphanumeric characters.
+		plustrafficmode=Modes valid are 0=No auto conversion. 1=Only TrafficShare conversion. 2=Only RapidPoints conversion. 3=Both conversions available. Ignored on type=col
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=enablersantihack_v1
+Description:	Enabled the RS AntiHack mode. This mode is highly recommended for every account, as it makes account manipulations impossible without unlocking it first.
+		Calling this routine gives an error if no valid e-mail has been saved by the user.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=disablersantihack_v1
+Description:	Disables the RS AntiHack mode, so the user can change the account settings again.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+		unlockcode=The unlock code as seen in the e-mail sent by enablersantihack.
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=sendrsantihackmail_v1
+Description:	Sends the e-mail again containing the unlock code. It is the same e-mail as you called enablersantihack.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=filemigrator_v1
+Description:	Access to the powerful file migrator to move files between different accounts and account types. LinkLists also supported.
+		Please notice that every transfer is logged. If you use this function to break the general user agreement, your account will be closed.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+		srcaccount=Login of the source account
+		srcpassword=Password of the source account
+		fileids=What files to move. Either a three digit ID for all files in the respective RealFolder, or a comma separated list of file IDs.
+			If movetype is freecol or freeprem, fileids has to be like: fileids=fFILEIDkKILLCODEfFILEIDkKILLCODE and (only then) it is limited to 100 files per run.
+		targetaccount=Login of the target account
+		targetpassword=Password of the target account
+		targetrealfolder=The RealFolder ID in the target account. All files will be moved in this RealFolder in the target account.
+		movetype=freecol OR freeprem OR colcol OR colprem OR premcol OR premprem OR llpremprem (premcol for example moves files from a premium account to a collector's account)
+Reply fields:	IF MOVETYPE=LLPREMPREM
+		1:Number of moved link lists
+		ELSE
+		1:Number of moved files
+		2:Files in source account before action
+		3:Space in source account before action
+		4:Files in target account before action
+		5:Space in target account before action
+		6:Files in source account after action
+		7:Space in source account after action
+		8:Files in target account after action
+		9:Space in target account after action
+Reply format:	IF MOVETYPE=LLPREMPREM
+		integer
+		ELSE
+		integer,integer,integer,integer,integer,integer,integer,integer,integer
+
+
+
+subroutine=newlinklist_v1
+Description:	Creates a new LinkList.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+		foldername=The name of the new LinkList
+		folderheadline=A headline for the new LinkList
+		nickname=Your nick name to display in the LinkList view mode
+		folderpassword=An optional folder password visitors have to enter before being able to browse your LinkList
+Reply fields:	1:LinkList ID
+Reply format:	string
+
+
+
+subroutine=editlinklist_v1
+Description:	Edits an existing LinkList. Keeping any value empty means deleting the value.
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+		folderid=The ID of the existing LinkList
+		foldername=The new name of the LinkList
+		folderheadline=A new headline for the LinkList
+		nickname=A new nick name to display in the LinkList view mode
+		folderpassword=An optional folder password visitors have to enter before being able to browse your LinkList
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=getlinklist_v1
+Description:	Receives a full list of all available link lists OR details about a specific link list. WARNING: Reply separator is a " instead of a comma!
+Parameters:	type=col or prem (Collector's account or Premium account.)
+		login=ID or username
+		password=Password of the login
+		folderid=LinkList ID. Set this to receive the first reply field group. Do not set this to receive the second reply field group.
+		withsubfolders=1 gives also all sub-folders if folderid is empty.
+Reply fields:	1:Subfolder ID (string)
+		2:File ID (integer)
+		3:Filename (string)
+		4:Size (integer in bytes)
+		5:Description (string)
+		6:Addtime (unix timestamp)
+		OR (if folderid is empty):
+		1:Folder ID (string)
+		2:Name (string)
+		3:Headline (string)
+		4:Views (integer)
+		5:Last view (unix timestamp)
+		6:Folder password (string)
+		7:Nick (string)
+Reply format:	string"integer"string"integer"string"integer\n...
+		OR (if folderid is empty)
+		string"string"string"integer"integer"string"string\n...
+
+
+
+subroutine=copyfilestolinklist_v1
+Description:	Copys several files to the given LinkList. Please notice that the files are not copied, but a link entry is generated in the LinkList pointing to the respective file.
+		It takes the size and the filename and saves it in the link-list for every file ID you provide. Please notice that the files have to be in your respective zone
+		in order to be copied to your LinkList.
+Parameters:	type=col or prem
+		login=ID or username
+		password=Password of the login
+		folderid=The folder ID to copy the files to
+		subfolderid=The sub-folder ID to copy the files to (0=root, default is 0)
+		files=A comma separated list of file IDs
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=newlinklistsubfolder_v1
+Description:	Creates a new LinkList sub-folder.
+Parameters:	type=col or prem
+		login=ID or username
+		password=Password of the login
+		folderid=The folder ID to create the entry in
+		subfolderid=The sub-folder ID to create the entry in
+		newsubfoldername=A reasonable sub-folder name
+		newsubfolderpassword=An optional numeric access password for that sub-folder.
+		newsubfolderdescription=An optional description
+Reply fields:	1:New sub-folder ID
+Reply format:	string
+
+
+
+subroutine=deletelinklist_v1
+Description:	Deletes an existing LinkList. Please notice that it will not delete the files itself, just the LinkList alone.
+Parameters:	type=col or prem
+		login=ID or username
+		password=Password of the login
+		folderid=The folder ID to delete
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=deletelinklistentries_v1
+Description:	Deletes LinkList entries. Also supports deleting sub folders. Be careful that it is possible to delete sub folders without deleting the links itself!
+		A messed up LinkList can always be completely deleted with deletelinklist_v1.
+Parameters:	type=col or prem
+		login=ID or username
+		password=Password of the login
+		folderid=The folder ID to delete entries from
+		subfolderid=The sub-folder ID to delete entries from. Defaults to 0 (root).
+		files=The comma-separated file IDs to delete. Notice that sub-folders are file IDs less than 1000.
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=editlinklistentry_v1
+Description:	Edits a LinkList entry. If length of file ID is <= 3, it is a folder and you may edit description and password. If it is >= 4, it is a file and you may only change the description.
+Parameters:	type=col or prem
+		login=ID or username
+		password=Password of the login
+		folderid=The folder ID containing the file-id
+		subfolderid=The sub-folder ID containing the file-id. Defaults to 0 (root).
+		fileid=The file ID to modify.
+		newdescription=The new description of the file or sub LinkList.
+		newpassword=The new access password of the sub LinkList. Only valid if you edit a sub LinkList.
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=trafficsharetype_v1
+Description:	Sets a new TrafficShare type for a list of files. (files parameter limited to 10000 bytes)
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		files=comma separated list of file ids
+		trafficsharetype=0,1,2,101,102 (0=off 1=on 2=on with encryption 101=on with logging 102=on with logging and encryption (101 and 102 require a verified premium account))
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=masspoll_v1
+Description:	Saves your vote on a running mass poll.
+Parameters:	type=col or prem (Collector's account or Premium account)
+		login=ID or username
+		password=password of the login
+		pollid=ID of the poll
+		a1=Your vote for question 1 (number between 1 and 99)
+		a2=Your vote for question 2 (number between 1 and 99)
+		a3=Your vote for question 3 (number between 1 and 99)
+		a4=Your vote for question 4 (number between 1 and 99)
+		a5=Your vote for question 5 (number between 1 and 99)
+Reply fields:	1:OK
+Reply format:	string
+
+
+
+subroutine=checkfiles_v1
+Description:	Gets status details about a list of given files. (files parameter limited to 3000 bytes. filenames parameter limited to 30000 bytes.)
+Parameters:	files=comma separated list of file ids
+		filenames=comma separated list of the respective filename. Example: files=50444381,50444382 filenames=test1.rar,test2.rar
+		incmd5=if set to 1, field 7 is the hex-md5 of the file. This will double your points! If not given, all md5 values will be 0
+Reply fields:	1:File ID
+		2:Filename
+		3:Size (in bytes. If size is 0, this file does not exist.)
+		4:Server ID
+		5:Status integer, which can have the following numeric values:
+			0=File not found
+			1=File OK (Anonymous downloading)
+			2=File OK (TrafficShare direct download without any logging)
+			3=Server down
+			4=File marked as illegal
+			5=Anonymous file locked, because it has more than 10 downloads already
+			6=File OK (TrafficShare direct download with enabled logging. Read our privacy policy to see what is logged.)
+		6:Short host (Use the short host to get the best download mirror: http://rs$serverid$shorthost.rapidshare.com/files/$fileid/$filename)
+		7:md5 (See parameter incmd5 in parameter description above.)
+Reply format:	integer,string,integer,integer,integer,string,string
+
+
+
+subroutine=trafficsharelogs_v1
+Description:	Gets detailed download logs for your offered TrafficShare files. To make this work, you first have to enable logging for the respective TrafficShare files.
+		No logs are generated by default.
+Parameters:	type=col or prem (Collector's account senseless here)
+		login=ID or username
+		password=password of the login
+		fileid=ID of the file
+Reply fields:	1: Start time, unix timestamp
+		2: Stop time, unix timestamp (You can easily calculate the download speed. If this is 0, then the client is still downloading.)
+		3: Size of the whole file in bytes
+		4: Starting position of the download
+		5: How many bytes the client has really downloaded
+		6: Range parameter. Download-accelerators might give those parameters.
+		7: Custom parameter. You can include information in the download link, like the customer ID or billing informations. Those can be tracked here as well.
+Reply format:	integer"integer"integer"integer"integer"string"string (the separator here is ", because the last two values may contain commas!)
+
+
+
+subroutine=trafficsharebandwidth_v1
+Description:	You can see how much bandwidth all your offered TrafficShare files have been used. This means, in case you want to host your files on your own servers, you need this bandwidth.
+		Holes in the table will exist if you use less than 1 MBit (128 KB/sec) or if we experience server problems. Logging of TrafficShare bandwidth also stops as soon as your
+		TrafficShare remaining traffic drops below 100 GB. If you rely on the graph, make sure you have always more than 100 GB of TrafficShare traffic. This means that this feature
+		is reserved for heavy business TrafficShare users.
+Parameters:	type=col or prem (Collector's account senseless here)
+		login=ID or username
+		password=password of the login
+		starttime=Start time to get logs for, unix timestamp
+		endtime=End time to get logs for, unix timestamp (you will never get more than 1000 records. Reply is "ORDER BY starttime LIMIT 1000")
+Reply fields:	1: Unix timestamp (You will get timestamp intervals every 10 minutes.)
+		2: KB/sec (How many KB/sec you have used in the past 10 minutes.)
+Reply format:	integer,integer
+
+
+
+subroutine=buylots_v1
+Description:	Exchanges RapidPoints to lots. You will get one lot for 50 RapidPoints. You can not own more than 50.000 lots.
+Parameters:	type=col or prem
+		login=ID or username
+		password=password of the login
+		newlots=How many new lots to buy
+Reply fields:	1: Number of lots you have now. (old+new)
+Reply format:	integer
+
+
+
+subroutine=sendmail_v1
+Description:	You may send an e-mail to someone to inform him/her about a file you have just uploaded. E-mail sending is restricted and has several anti-spam methods included.
+Parameters:	name=YOUR name
+		comment=A comment you want to attach to your e-mail. HTML will be filtered.
+		email1=First e-mail address to send to
+		email2=Second e-mail address (optional)
+		email3=Third e-mail address (optional)
+		withkillcode1=1 means that e-mail #1 will also receive the delete links for the files. Optional.
+		withkillcode2=1 optional
+		withkillcode3=1 optional
+		fileid1=File ID 1 to inform the receiver about
+		killcode1=The killcode for fileid1 (required)
+		fileidX=Same as above. Supported up to fileid10.
+		killcodeX=Supported up to killcode10.
+Reply fields:	1: OK
+Reply format:	string
+
+
+
+subroutine=premiumzonelogs_v1
+Description:	Downloads the log files from your premium zone. Thus which IP network has downloaded how much data on what day from your premium account. Ordered by date descending.
+Parameters:	login=ID or username
+		password=password of the login
+Reply fields:	1: date (YYYY-MM-DD)
+		2: ipnet (10.10.0.XXX)
+		3: dlkb (How many Kilobytes you have downloaded)
+Reply format:	string,string,integer\nstring,string,integer\nstring,string,integer\nstring,string,integer\n...
+
+
+
+subroutine=getreward_v1
+Description:	Gets details about your ordered RapidShare reward. You can only have one pending reward active at the same time.
+Parameters:	type=col or prem
+		login=ID or username
+		password=password of the login
+Reply fields:	1: Reward-ID
+		2: AddTime (Unix timestamp)
+		3: E-Mail address saved when ordered this reward.
+		4: Active PPointRate (PPointRate: How many CENT you get for 1000 Premium RapidPoints.)
+		5: Parameters. This is a text-block of data needed to deliver the reward, which has been saved as well via setreward_v1.
+Reply format:	integer,integer,string,integer\nseveral lines of text data
+
+
+
+subroutine=setreward_v1
+Description:	Saves details about your ordered RapidShare reward. You can only have one pending reward active at the same time.
+Parameters:	type=col or prem
+		login=ID or username
+		password=password of the login
+		reward=integer (1-255) of the reward ID.
+		parameters=A multi-line textblock with max. 3000 characters, which can be read by getreward_v1. Suspicious characters will be filtered.
+Reply fields:	1: OK
+Reply format:	string
+
+
+
+subroutine=getpointlogs_v1
+Description:	Gets details about your earned RapidPoints. You can see how many RapidPoints you have earned on which day. Max. 90 days in the past.
+		Due to the complexity of this process, you can't see the points of the current day.
+Parameters:	type=col or prem
+		login=ID or username
+		password=password of the login
+Reply fields:	1: Date (ordered by date descending "YYYY-MM-DD")
+		2: fpoints (Free RapidPoints earned through free users)
+		3: ppoints (Premium RapidPoints earned through premium users. Example: 24.06)
+Reply format:	string,integer,float
+
+
+
+subroutine=getreferrerlogs_v1
+Description:	You can see how many Premium RapidPoints you have earned on which day. Max. 1000 entries will be displayed.
+Parameters:	type=col or prem
+		login=ID or username
+		password=password of the login
+Reply fields:	1: addtime (unix timestamp. entries ordered by addtime descending)
+		2: ppoints (how many Premium-RapidPoints you got by this new customer)
+		3: byfileid (the referrer File-ID. This is 0 if the customer used a REFLINK instead.)
+		4: confirmed (it takes 21 days until the ppoints will be credited to your balance preventing fraud. 0 or 1)
+Reply format:	integer,integer,integer
+
+
+
+subroutine=ppointstofpoints_v1
+Description:	Exchanges your Premium RapidPoints to Free RapidPoints. Exchange rate may vary. Right now you get 1250 fpoints for 1000 ppoint.
+Parameters:	type=col or prem
+		login=ID or username
+		password=password of the login
+		takeppoints=how many ppoints you wish to exchange to fpoints. Minimum is 1000. The really exchanged points may be lower than specified.
+Reply fields:	1: ppoints (how many ppoints you lost)
+		2: fpoints (how many fpoints you got)
+Reply format:	integer,integer
+
+
+
+Revision history (entries refering to functions being removed after just a few days will be removed here as well to keep the history clean)
+===========================================================================================================================================
+25.05.2009
+	- Introduction of the revision history
+	- trafficsharelogs_v1,trafficsharebandwidth_v1: actually make them work as they should....
+	- trafficsharelogs_v1: range and custom parameter added
+	- checkfiles_v1: status values re-formatted and value 6 added
+
+30.05.2009
+	- getaccountdetails_v1: Possibility to earn money added. Thus, referers added, new parameter withrefstring added.
+
+01.06.2009
+	- getaccountdetails_v1: referers changed to refpoints. Possibility for collector's users to earn money added. refpoints and refstring added there as well.
+
+04.06.2009
+	- premiumzonelogs_v1 added
+	- getapicpu_v1: Now permanent. MAX value added.
+
+05.06.2009
+	- filemigrator_v1: acceptfee added. File migrator not free anymore due to massive abuse.
+
+08.06.2009
+	- getaccountdetails_v1: withcookie added. If you need to set the new encrypted cookie, this string will include cookie=STRING in the reply.
+
+14.06.2009
+	- getreward_v1 and setreward_v1 added.
+
+22.06.2009
+	- global: Support for encrypted API login added via global override parameter cookie=HEXSTRING
+
+25.06.2009
+	- getaccountdetails_v1: reply field "type" added.
+
+01.07.2009
+	- getaccountdetails_v1: prempoints always returns 0. It will be removed shortly!
+
+06.07.2009
+	- getaccountdetails_v1: prempoints now removed. refrate added.
+	- getpointlogs_v1: added function
+	- getreferrerlogs_v1: added function
+
+15.07.2009
+	- listfiles_v1: killdeadline added
+
+16.07.2009
+	- listfiles_v1: now takes new optional parameter "fileids"
+
+06.08.2009
+	- getlinklist_v1: Internal bug-fixes and changed reply separator from , to " and reply is no longer HTML encoded.
+
+11.08.2009
+	- getreward_v1: Reply changed. Points removed.
+
+17.08.2009
+	- filemigrator_v1: acceptfee removed. Fee removed completely.
+	- masspoll_v1: vote changed to a1...a5 to enable possibility of surveys.
+
+19.08.2009
+	- getaccountdetails_v1: points renamed to fpoints. ppoints added. "points=0" added to avoid broken applications.
+	- getpointlogs_v1: ppoints changed from integer to float.
+
+21.08.2009
+	- ppointstorefpoints_v1: added function
+
+22.08.2009
+	- ppointstorefpoints_v1: changed reply
+	- ppointstofpoints_v1: added function
+
+24.08.2009
+	- getaccountdetails_v1: refrate changed to ppointrate, refpoints removed.
+	- getreferrerlogs_v1: refpoints changed to ppoints
+	- ppointstorefpoints_v1: function removed
+	- getreward_v1: refrate changed to ppointrate
+
+05.10.2009
+	- getaccountdetails_v1: updated documentation to reality: points replaced by fpoints and ppoints, prempoints removed.
+
+06.10.2009
+	- Inserted missing RSAntiHack check routines in several api functions.
+	- renamefile_v1: changed function so that you need a login now to use it. No longer accepts killcode identification
+
+08.10.2009
+	- getreferrerlogs_v1: confirmed flag added
+
+18.10.2009
+	- filemigrator_v1: Some design flaws fixed with RealFolders. Syntax has changed slightly. srcrealfolder removed.
+			   fileids now alternatively takes a RealFolder ID and no longer an "*".
+
+26.10.2009
+	- getaccountdetails_v1: mirror, mirror2, mirror3 and mirror4 replaced by "mirrors", a comma separated list of mirrors to use.
+
+05.11.2009
+	- checkfiles_v1: limit of files to check at once lowered from 10000 bytes to 3000 bytes.
