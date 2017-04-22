@@ -100,6 +100,29 @@ ERROR:  0 Critical Disks
 ERROR:  0 Failed Disks
 ```
 
+Example emails when errors are detected;
+
+```
+Subject
+-------
+WARNING: Problems with RAID array on file.lomiz.com!
+
+Body
+----
+STATE:  Degraded
+ERROR:  1 Disks Degraded
+ERROR:  1 Disks Offline
+ERROR:  0 Critical Disks
+ERROR:  0 Failed Disks
+--------------------
+State            Degraded
+Degraded         1
+Offline          1
+Disks            4
+Critical Disks   0
+Failed Disks     0
+```
+
 ### entropy_ck.sh
 calculate the Shannon entropy of a string (if using with a password use a space before the command execution to override storing it in the history buffer"
 
