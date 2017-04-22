@@ -6,7 +6,6 @@ Directories;
 * **diceare/** - mirror of the famous diceware lists that can be easily downloaded for use with other scripts
 * **experimental/** - contains test script or expirements that have been written while writing other scripts, may or may not work. Not meant to be used, just kept around as reference or fun.
 * **old_n_deprecated/** - old, broken, or otherwise deprecated scripts/apps that have been written and are broken or EOL. 
-* **www/** - a place to put miscellaneous web scripts
 
 ### bench_disk.sh
 a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
@@ -56,6 +55,49 @@ dff0c59900275673c29fde9fc97de390c3edd2c3  /Users/chad/Books//Docker_in_Practice.
 52332d0a159305d3c55deaacfda9f02fd48b80c2  /Users/chad/Books//Unix_Power_Tools_Third_Edition.pdf
 8b09f063a6db3e73424c9af678f5256bc5b1f562  /Users/chad/Books//Using_Docker.pdf
 8fc938c3e5b73daad3cbcdb75c06653e957db854  /Users/chad/Books//Introducing_Go.pdf
+```
+
+### ck_raid.sh
+Gather info about PERC (specifically the 6/i and other LSI based cards that use MegaCli) and display in a pretty format. Also use the monitor function, designed to be called from cron, to monitor the array health and alert an email on errors.
+
+```
+[root@myhost ~]# ./ck_raid.sh 
+ERROR: Unknown option! Please change the option and try again.
+  e.g. ./ck_raid.sh <info|monitor>
+[root@myhost ~]# ./ck_raid.sh info
+Product Name           PERC 6/i Adapter
+Serial No              1122334455667788
+FW Package Build       6.3.1-0003
+FW Version             1.22.32-1371
+BIOS Version           2.04.00
+Host Interface         PCIE
+Memory Size            256MB
+Supported Drives       SAS, SATA
+Virtual Drives         1
+  Degraded             0
+  Offline              0
+Physical Devices       4
+  Disks                4
+  Critical Disks       0
+  Failed Disks         0
+Virtual Drive Info
+  RAID Level           Primary-5, Secondary-0, RAID Level Qualifier-3
+  Size                 4.091 TB
+  Sector Size          512
+  Strip Size           64 KB
+  Number Of Drives     4
+  Span Depth           1
+Drive Status           OPTIMAL
+  Slot Number 0        Online, Spun Up      9VS12A34ST1500DM003-9YN16G
+  Slot Number 1        Online, Spun Up      9VS12B34ST1500DM003-9YN16G
+  Slot Number 2        Online, Spun Up      9VS12C34ST1500DM003-9YN16G
+  Slot Number 3        Online, Spun Up      9VS12D34ST1500DM003-9YN16G
+[root@myhost ~]# ./ck_raid.sh monitor
+STATE:  Degraded
+ERROR:  1 Disks Degraded
+ERROR:  1 Disks Offline
+ERROR:  0 Critical Disks
+ERROR:  0 Failed Disks
 ```
 
 ### entropy_ck.sh
