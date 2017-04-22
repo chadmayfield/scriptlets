@@ -57,14 +57,14 @@ dff0c59900275673c29fde9fc97de390c3edd2c3  /Users/chad/Books//Docker_in_Practice.
 8fc938c3e5b73daad3cbcdb75c06653e957db854  /Users/chad/Books//Introducing_Go.pdf
 ```
 
-### ck_raid.sh
+### chk_raid.sh
 Gather info about PERC (specifically the 6/i and other LSI based cards that use MegaCli) and display in a pretty format. Also use the monitor function, designed to be called from cron, to monitor the array health and alert an email on errors.
 
 ```
-[root@myhost ~]# ./ck_raid.sh 
+[root@myhost ~]# ./chk_raid.sh 
 ERROR: Unknown option! Please change the option and try again.
-  e.g. ./ck_raid.sh <info|monitor>
-[root@myhost ~]# ./ck_raid.sh info
+  e.g. ./chk_raid.sh <info|monitor>
+[root@myhost ~]# ./chk_raid.sh info
 Product Name           PERC 6/i Adapter
 Serial No              1122334455667788
 FW Package Build       6.3.1-0003
@@ -92,7 +92,7 @@ Drive Status           OPTIMAL
   Slot Number 1        Online, Spun Up      9VS12B34ST1500DM003-9YN16G
   Slot Number 2        Online, Spun Up      9VS12C34ST1500DM003-9YN16G
   Slot Number 3        Online, Spun Up      9VS12D34ST1500DM003-9YN16G
-[root@myhost ~]# ./ck_raid.sh monitor
+[root@myhost ~]# ./chk_raid.sh monitor
 STATE:  Degraded
 ERROR:  1 Disks Degraded
 ERROR:  1 Disks Offline
