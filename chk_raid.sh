@@ -1,9 +1,12 @@
 #!/bin/bash
 
-# raid_check.sh - check status of raid using MegaCli64
+# chk_raid.sh - check status of raid using MegaCli64
 
 # author  : Chad Mayfield (chad@chd.my)
 # license : gplv3
+
+# run from root's cron hourly
+#0 * * * * /usr/local/bin/chk_raid.sh
 
 # example output for drive/adapter status ($megacli -LDInfo -LALL -aAll)
 #Virtual Drives    : 1 
