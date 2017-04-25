@@ -57,6 +57,41 @@ dff0c59900275673c29fde9fc97de390c3edd2c3  /Users/chad/Books//Docker_in_Practice.
 8fc938c3e5b73daad3cbcdb75c06653e957db854  /Users/chad/Books//Introducing_Go.pdf
 ```
 
+### chk_fio.sh
+gather info about a Fusion-io PCIe Flash Drive and display the information, or with the option 'health' it will email errors.
+
+```
+[root@myhost ~]# /usr/local/bin/chk_fio.sh 
+ERROR: Unknown option! Please change the option and try again.
+  e.g. /usr/local/bin/chk_fio.sh <info|health>
+[root@myhost ~]# /usr/local/bin/chk_fio.sh info
+fct0: Product Number:FS0-000-000-AB, SN:0000000
+Internal temperature: 51.68 degC, max 58.08 degC
+Reserve space status: Healthy; Reserves: 100.00%, warn at 10.00%
+Physical bytes written: 82,103,493,122,656 (76464.83 GB)
+Physical bytes read   : 78,618,223,881,224 (73218.92 GB)
+RAM Current: 49,912,320 bytes
+RAM Peak   : 49,912,320 bytes
+```
+
+Example emails when errors are detected;
+
+```
+Subject
+-------
+WARNING: Problems with Fusion-io drive on file.chadmayfield.com!
+
+Body
+----
+fct0: Product Number:FS0-000-000-AB, SN:0000000
+Internal temperature: 51.68 degC, max 58.08 degC
+Reserve space status: Healthy; Reserves: 100.00%, warn at 10.00%
+Physical bytes written: 82,103,493,122,656 (76464.83 GB)
+Physical bytes read   : 78,618,223,881,224 (73218.92 GB)
+RAM Current: 49,912,320 bytes
+RAM Peak   : 49,912,320 bytes
+```
+
 ### chk_raid.sh
 Gather info about PERC (specifically the 6/i and other LSI based cards that use MegaCli) and display in a pretty format. Also use the monitor function, designed to be called from cron, to monitor the array health and alert an email on errors.
 
