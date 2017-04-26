@@ -12,7 +12,7 @@ a simple script to alert an email address when someone logs into a Linux machine
 
 Example email;
 
-<img src="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/screenshots/alert_login.png" width="200" height="152">
+<a href="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/scree    nshots/alert_login.pn"><img src="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/screenshots/alert_login.png" width="200" height="152"></a>
 
 ### bench_disk.sh
 a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
