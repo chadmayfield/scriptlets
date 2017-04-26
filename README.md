@@ -7,6 +7,13 @@ Directories;
 * **experimental/** - contains test script or expirements that have been written while writing other scripts, may or may not work. Not meant to be used, just kept around as reference or fun.
 * **old_n_deprecated/** - old, broken, or otherwise deprecated scripts/apps that have been written and are broken or EOL. 
 
+### alert_login.sh
+a simple script to alert an email address when someone logs into a Linux machine.  Place the script in /etc/profile.d/alert_login.sh.
+
+Example email;
+
+<img src="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/screenshots/alert_login.png" width="200" height="152">
+
 ### bench_disk.sh
 a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
 
