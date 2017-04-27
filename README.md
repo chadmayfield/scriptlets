@@ -10,9 +10,9 @@ Directories;
 ### alert_login.sh
 a simple script to alert an email address when someone logs into a Linux machine.  Place the script in /etc/profile.d/alert_login.sh.
 
-Example email;
+Example email (blurred for privacy);
 
-<a href="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/screenshots/alert_login.pn"><img src="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/screenshots/alert_login.png" width="200" height="152"></a>
+<a href="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/screenshots/alert_login.png"><img src="https://raw.githubusercontent.com/chadmayfield/scriptlets/master/screenshots/alert_login.png" width="200" height="152"></a>
 
 ### bench_disk.sh
 a rough disk benchmarking utiltiy using dd (use tee to add to logfile and keep historical data)
@@ -62,6 +62,25 @@ dff0c59900275673c29fde9fc97de390c3edd2c3  /Users/chad/Books//Docker_in_Practice.
 52332d0a159305d3c55deaacfda9f02fd48b80c2  /Users/chad/Books//Unix_Power_Tools_Third_Edition.pdf
 8b09f063a6db3e73424c9af678f5256bc5b1f562  /Users/chad/Books//Using_Docker.pdf
 8fc938c3e5b73daad3cbcdb75c06653e957db854  /Users/chad/Books//Introducing_Go.pdf
+```
+
+### checksum_cdrom.sh
+checksums a burnt CD/DVD against an ISO file used to master it.
+
+```
+chad@myhost:~ $ ./checksum_cdrom.sh 
+ERROR: You must supply an iso file to compare!
+  e.g. ./checksum_cdrom.sh /path/to/discimage.iso
+chad@myhost:~ $ ./checksum_cdrom.sh /home/chad/ubuntu_full_16.04.iso 
+Found disc in /dev/sr0: Ubuntu 16.04.1 LTS amd64        
+Beginning checksum...done!
+ERROR: Checksums do not match!
+  Checksum of ubuntu_full_16.04.iso: de82147297858a862b59b07ae3f111ca9fa2f8c0
+  Checksum of disc in /dev/sr0: da39a3ee5e6b4b0d3255bfef95601890afd80709
+chad@myhost:~ $ ./checksum_cdrom.sh /home/chad/ubuntu_mini_16.04.iso 
+Found disc in /dev/sr0: Ubuntu 16.04.1 LTS amd64        
+Beginning checksum...done!
+Checksums match! 902731a64bf54a057ba266a32de5fbcc4c494fcf
 ```
 
 ### chk_fio.sh
