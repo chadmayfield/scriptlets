@@ -228,6 +228,50 @@ ubuntu@ubuntu-xenial:~$ ./measure_latency.sh msn.com 10
 latency measurement failed: 100% packet loss
 ```
 
+### myrepos_status.sh
+quick script to show me all of my repos and what needs to be checked-in and where.
+
+```
+./myrepos_status.sh 
+Found repo: git@github.com:chadmayfield/Dockerfiles.git
+Found repo: git@github.com:chadmayfield/compliance_checks.git
+?? get_www_ciphers.sh
+Found repo: git@github.com:chadmayfield/configs.git
+?? etc/
+Found repo: git@github.com:chadmayfield/dot_files.git
+Found repo: git@github.com:chadmayfield/scriptlets.git
+M polarhome.pl
+?? experiments/processes.sh
+Found repo: git@github.com:chadmayfield/seeker.git
+Found repo: git@github.com:chadmayfield/zoneedit-updater.git
+```
+
+
+### myrepos_update.sh
+an automated update script that iterates through all subdirectories (only one deep) under the current tree and pull any changes to the git repos there. assumes ssh is used (not https) to pull/push repos.
+
+```
+chad@myhost:~$ ./update_myrepos.sh 
+Found repo: git@github.com:chadmayfield/chadmayfield.github.io.git
+Pulling latest changes...
+Already up-to-date.
+Found repo: git@github.com:chadmayfield/compliance_checks.git
+Pulling latest changes...
+Already up-to-date.
+Found repo: git@github.com:chadmayfield/scriptlets.git
+Pulling latest changes...
+remote: Counting objects: 3, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), done.
+From github.com:chadmayfield/scriptlets
+   fa418b1..66db9c9  master     -> origin/master
+Updating fa418b1..66db9c9
+Fast-forward
+ README.md | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
 ### randomize_mac.sh
 randomize mac addresses on macOS and Linux. This will help circumvent free wifi time limits in coffee shops and such. (This was actually an experiment until I begain using it more and more. I know about and have used machanger and spoofMAC, but I wanted to use something I wrote!)
 ```
@@ -330,32 +374,6 @@ Current Connections: 192.168.110.3
                      52.41.5.6 (ec2-52-41-5-6.us-west-2.compute.amazonaws.com.)
                      192.168.110.213
 ------------------------------------------------------------------------
-```
-
-
-### update_myrepos.sh
-an automated update script that iterates through all subdirectories (only one deep) under the current tree and pull any changes to the git repos there. assumes ssh is used (not https) to pull/push repos.
-
-```
-chad@myhost:~$ ./update_myrepos.sh 
-Found repo: git@github.com:chadmayfield/chadmayfield.github.io.git
-Pulling latest changes...
-Already up-to-date.
-Found repo: git@github.com:chadmayfield/compliance_checks.git
-Pulling latest changes...
-Already up-to-date.
-Found repo: git@github.com:chadmayfield/scriptlets.git
-Pulling latest changes...
-remote: Counting objects: 3, done.
-remote: Compressing objects: 100% (3/3), done.
-remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0
-Unpacking objects: 100% (3/3), done.
-From github.com:chadmayfield/scriptlets
-   fa418b1..66db9c9  master     -> origin/master
-Updating fa418b1..66db9c9
-Fast-forward
- README.md | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 ```
 
 ### vagrant_update_boxes.sh

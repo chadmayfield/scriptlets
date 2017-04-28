@@ -18,7 +18,7 @@ do
     fi
 
     cd ..
-    sleep 2
+#    sleep 2
 done
 
 #EOF
