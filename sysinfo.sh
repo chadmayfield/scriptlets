@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 # sysinfo.sh - get hw stats for differnet oses
 
