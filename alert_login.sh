@@ -22,40 +22,39 @@ users=$(w)
 our_host=$(hostname -f)
 
 dflt_iface=$(route | grep '^default' | grep -o '[^ ]*$')
-local_ip=$(ip addr show $dflt_iface | grep "inet " | awk '{print $2}' | \
+local_ip=$(ip addr show "$dflt_iface" | grep "inet " | awk '{print $2}' | \
            sed -e 's/\/.*$//g')
 
 # check if local or remote connection
 if [[ $(tty) =~ "pts" ]]; then
     # pseudo terminal
-    local_ip=$(echo $SSH_CONNECTION | awk '{print $3}')
+    local_ip=$(echo "$SSH_CONNECTION" | awk '{print $3}')
     local_wan=$(curl -s http://ipinfo.io/ip)
     local_rdns=$(curl -s http://ipinfo.io/hostname)
 
-    remote_ip=$(echo $SSH_CONNECTION | awk '{print $1}')
+    remote_ip=$(echo "$SSH_CONNECTION" | awk '{print $1}')
     if [[ $remote_ip =~ (::1|127.0.0.1) ]]; then
         remote_ip="NONE (reverse tunnel?)"
     fi
-    remote_rdns=$(host $remote_ip)
+    remote_rdns=$(host "$remote_ip")
 
     # check to see if we can resolve the connecting ip
-    rgexp="not found|PTR|NXDO"
+    regexp="not found|PTR|NXDO"
     if [[ $remote_ip =~ "$regexp" ]]; then
         remote_rdns="N/A"
     fi
 elif [[ $(tty) =~ "tty" ]]; then
     # console
     remote_ip="tty$(tty | awk -F "tty" '{print $2}')"
-    rdns="None, logged in locally!"
+    remote_rdns="None, logged in locally!"
 else
     # who knows how anyone got here
     remote_ip="UNKNOWN"
-    rdns="UNKNOWN"
+    remote_rdns="UNKNOWN"
 fi
 
 tmpfile="/tmp/alert_login.txt.$$"
 mail_to='user@domain.tld' # change this to alert user
-mail_from="root@${our_host}"
 subject="ALERT: Login to $our_host from $remote_ip"
 
 # I know, normally I hate HTML email, but for this, I wanted it and this
@@ -83,7 +82,7 @@ don't want to receive such notifications please remove the
 <tr><td><strong>Remote IP: </strong></td><td><a href="http://whois.domaintools.com/$remote_ip">$remote_ip</a></td></tr>
 <tr><td><strong>Remote rDNS: </strong></td><td><a href="#">$remote_rdns</a></td></tr>
 <tr><td><br /></td><td><br /></td></tr>
-<tr><td><strong>Uptime/Users: </strong></td><td><pre>$(w)</pre></td></tr>
+<tr><td><strong>Uptime/Users: </strong></td><td><pre>${users}</pre></td></tr>
 <tr><td><br /></td><td><br /></td></tr>
 <tr><td><strong>Current Connections: </strong></td><td><pre>$(netstat -n -A inet)</pre></td></tr>
 <tr><td><br /></td><td><br /></td></tr>
