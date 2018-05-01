@@ -4,15 +4,18 @@
 
 for i in $(find . -name Vagrantfile)
 do
-    echo "Found Vagrantfile at: $i"
-    cd $(echo $i | sed 's/Vagrantfile//')
+    if ! [[ $i =~ (do|vultr)- ]]; then
+        echo "Found Vagrantfile at: $i"
+        cd $(echo $i | sed 's/Vagrantfile//')
 
-    boxname=$(grep "^  config.vm.box " Vagrantfile | awk -F "= " '{print $2}')
-    echo "Updating box: $boxname"
+        boxname=$(grep "^  config.vm.box " Vagrantfile | awk -F "= " '{print $2}')
+        echo "Updating box: $boxname"
 
-    vagrant box update
+        vagrant box update
 
-    cd - &> /dev/null
+        cd - &> /dev/null
+        echo "============================================================"
+    fi
 done
 
 #EOF
