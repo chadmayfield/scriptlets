@@ -5,7 +5,7 @@
 # git pull all repositories in tree
 for i in $(find . -name .git | sed 's/.git//g')
 do
-    cd $i
+    cd "$i"
 
     if [ -e .git ]; then
         repo=$(git config --local -l | grep "remote.origin.url" | awk -F "=" '{print $2}')
