@@ -40,7 +40,7 @@ if [ ! -S "$SSH_AUTH_SOCK" ]; then
     echo "Not found! Starting ssh-agent..."
     eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
     start_rv=$?
-    echo $SSH_AGENT_PID > $HOME/.ssh/.agent.$HOSTNAME.sock.pid
+    echo $SSH_AGENT_PID > $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid
 
     if [ "$start_rv" -eq 0 ]; then
         echo "Started: $SSH_AUTH_SOCK (PID: $SSH_AGENT_PID)"
@@ -54,7 +54,7 @@ fi
 
 ## recreate pid
 #if [ -z $SSH_AGENT_PID ]; then
-#    export SSH_AGENT_PID=$(cat $HOME/.ssh/.agent.$HOSTNAME.sock.pid)
+#    export SSH_AGENT_PID=$(cat $HOME/.ssh/.ssh-agent.$HOSTNAME.sock.pid)
 #fi
 
 # use the correct grammar for fun!
