@@ -2,7 +2,8 @@
 
 # update_myrepos.sh - update all my repos under the current tree
 
-keys=( "$HOME/.ssh/github.com/id_ed25519" ) 
+keys=( "$HOME/.ssh/github.com/id_ed25519" 
+       "$HOME/.ssh/gogs/id_ed25519" ) 
 
 bold=$(tput bold)       
 normal=$(tput sgr0)
@@ -77,8 +78,8 @@ for i in "${keys[@]}"; do
             echo "Key added."
         fi
     else
-        echo "Key exists."
-        fi
+        echo "Key already exists: $(echo $cmp_key | awk '{print $2}')"
+    fi
 done
 
 # iterate through all child dirs to find git repos
