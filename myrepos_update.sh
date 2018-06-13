@@ -78,7 +78,7 @@ for i in "${keys[@]}"; do
             echo "Key added."
         fi
     else
-        echo "Key already exists: $(echo $cmp_key | awk '{print $2}')"
+        echo "Key already added: $(echo $cmp_key | awk '{print $2}')"
     fi
 done
 
