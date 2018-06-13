@@ -15,52 +15,94 @@ magenta=$(tput setaf 5)  # COLOR_MAGENTA/RGB:255,0,255
 cyan=$(tput setaf 6)     # COLOR_CYAN/RGB:0,255,255
 white=$(tput setaf 7)    # COLOR_WHITE/RGB:255,255,255
 
-# check if ssh-agent is running & start it
-if [ $(ps -A | grep "[s]sh-agent -s" | wc -l) -eq 0 ]; then
-    echo "ssh-agent is not running!"
-    echo "starting..."
-    eval "$(ssh-agent -s)"
+
+echo "Checking for ssh-agent..."
+
+# find all ssh-agent sockets
+#$find / -uid $(id -u) -type s -name *agent.\* 2>/dev/null()
+
+# set var if not set
+oursock="$HOME/.ssh/.ssh-agent.$HOSTNAME.sock"
+
+# is $SSH_AUTH_SOCK set
+if [ -z "$SSH_AUTH_SOCK" ]; then
+    export SSH_AUTH_SOCK=$oursock
 else
-    echo "ssh-agent is already running."
+    # it is, but check to make sure it's not keyring
+    if ! [ "$SSH_AUTH_SOCK" = $oursock ]; then
+        export SSH_AUTH_SOCK=$oursock
+    fi
 fi
 
-echo "checking for key..."
-for i in ${keys[@]}; do
-	# grab key fingerprint
+# if we don't have a socket, start ssh-agent
+if [ ! -S "$SSH_AUTH_SOCK" ]; then
+    echo "Not found! Starting ssh-agent..."
+    eval $(ssh-agent -a "$SSH_AUTH_SOCK" >/dev/null)
+    start_rv=$?
+    echo $SSH_AGENT_PID > $HOME/.ssh/.agent.$HOSTNAME.sock.pid
+
+    if [ "$start_rv" -eq 0 ]; then
+        echo "Started: $SSH_AUTH_SOCK (PID: $SSH_AGENT_PID)"
+    else
+        echo "ERROR: Failed to start ssh-agent! (EXIT: $start_rv)"
+        exit 1
+    fi
+else
+    echo "Found: $SSH_AUTH_SOCK"
+fi
+
+## recreate pid
+#if [ -z $SSH_AGENT_PID ]; then
+#    export SSH_AGENT_PID=$(cat $HOME/.ssh/.agent.$HOSTNAME.sock.pid)
+#fi
+
+# use the correct grammar for fun!
+if [ "${#keys[@]}" -eq 1 ]; then
+    echo "Checking for key..."
+else
+    echo "Checking for keys..."
+fi
+
+for i in "${keys[@]}"; do
+        # grab key fingerprint
     cmp_key=$(ssh-keygen -lf $i)
-	
-	# if key fingerprint not found in fingerprint list, add it
-	if [ $(ssh-add -l | grep -c "$cmp_key") -eq 0 ]; then
-    	echo "key not found."
-    	echo "adding key..."
-		ssh-add $i
-	else
-    	echo "key found."
-	fi
+        
+        # if key fingerprint not found in fingerprint list, add it
+        if [ $(ssh-add -l | grep -c "$cmp_key") -eq 0 ]; then
+        echo "Key not found! Adding it..."
+                ssh-add $i
+        add_rv=$?
+
+        if [ $add_rv -eq 0 ]; then
+            echo "Key added."
+        fi
+    else
+        echo "Key exists."
+        fi
 done
 
 # iterate through all child dirs to find git repos
-echo "pulling updates..."
+echo "Pulling updates..."
 for i in $(find $(pwd) -name .git | sed 's/\/.git//g' | sort)
 do
-	(
+        (
     cd "$i"
 
     if [ -e .git ]; then
         repo=$(git config --local -l | grep "remote.origin.url" | awk -F "=" '{print $2}')
         echo " "
 
-		if [[ $repo =~ "@" ]]; then
+                if [[ $repo =~ "@" ]]; then
             repotype="SSH"
-		else
-			repotype="HTTPS"
-		fi
+                else
+                        repotype="HTTPS"
+                fi
 
         echo "====================================================="
         echo "${bold}Found repo ($repotype): ${yellow}$repo${normal}"
         echo "Pulling latest changes..."
         git pull
-		git pull --tags
+#               git pull --tags
     else
         :
     fi

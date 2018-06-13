@@ -20,10 +20,18 @@ if [[ $1 =~ "help" ]]; then
     exit 1
 fi
 
+# read ipinfo.io token
+tokenpath="$HOME/.ipinfo_token"
+if [ -f "$tokenpath" ]; then
+    source "$tokenpath"
+else
+    echo "ERROR: $tokenpath doesn't exist!"
+    exit 1
+fi
+
 # grab some basic information
 currdate=$(date)
 kernel=$(uname -sr)
-up=$(uptime | awk 'BEGIN{FS="up |,"}{print $2" hours"}')
 
 # check if docker is installed
 command -v docker >/dev/null 2>&1; has_docker=1 || { has_docker=0; }
@@ -42,28 +50,30 @@ if [ $has_docker -eq 1 ]; then
         int_ip=$(ifconfig | grep "inet.*broadcast" | awk '{print $2}')
     fi
 
-    docver=$(docker version |grep -A1 Server | awk '/Version/ {print $2}')
+    docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')
     running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}')
 else
     int_ip=$(ifconfig | grep "inet.*broadcast" | awk '{print $2}')
 fi
 
 # get external ip address
-command curl -s http://ipinfo.io > /tmp/ext_ip || \
+command curl -s "https://ipinfo.io?token=${TOKEN}" > /tmp/ext_ip || \
     { echo >&2 "ERROR: You must be connected to the internet!"; exit 1; }
 ext_ip=$(grep ip /tmp/ext_ip | awk '{gsub(/[",]/, ""); print $2}')
 ext_hn=$(grep hostname /tmp/ext_ip | awk '{gsub(/[",]/, ""); print $2}')
 
 # set variables depending on os (between macOS & Ubuntu/Debian/RHEL)
 if [[ $OSTYPE =~ "darwin" ]]; then
+    up=$(uptime | awk 'BEGIN{FS="up |,"}{print $2" hours"}'|awk '{$1=$1};1')
+
     # get some OS/HW specific information
     os_name=$(sw_vers -productName)
     os_version=$(sw_vers -productVersion)
     os_build=$(sw_vers -buildVersion)
     serial=$(system_profiler SPHardwareDataType | awk '/Serial/ {print $4}')
     # get hw version: http://apple.stackexchange.com/a/98089
-    hw=$(curl -s http://support-sp.apple.com/sp/product?cc=$(echo $serial | \
-         cut -c 9-) | sed 's|.*<configCode>\(.*\)</configCode>.*|\1|')
+    hw=$(curl -s https://support-sp.apple.com/sp/product?cc=$(echo $serial | \
+        cut -c 9-) | sed 's|.*<configCode>\(.*\)</configCode>.*|\1|')
     uuid=$(system_profiler SPHardwareDataType | awk '/UUID/ { print $3 }')
 
     # get load stats
@@ -85,18 +95,20 @@ if [[ $OSTYPE =~ "darwin" ]]; then
     mem=$(top -l 1 -s 0 | grep PhysMem | awk -F ': ' '{print $2}') 
 
     # additional network information
-    txrx="$(netstat -ib -I en0 | grep -i $int_ip | awk '{print $10}') bytes"
+    txrx="$(netstat -ib -I en0 | grep -v Name | head -n1 | awk '{print $10}') bytes"
     conn=$(netstat -anf inet | awk '{print $5}' | grep [0-9] | \
        grep -vE 'x|127.0.0.1' | awk -F . '{print $1"."$2"."$3"."$4}' |sort -u)
 
     # get drive/mount point information
 #    drives=$(diskutil list)
 elif [[ $OSTYPE =~ "linux" ]]; then
+    up=$(uptime -p | cut -d " " -f2-)
+
     # get some OS/HW specific information
     if [ -f /etc/redhat-release ]; then
         os_version=$(cat /etc/redhat-release)
     else
-        os_version=$(lsb_release -a |awk '/Desc:/ {first=$1; $1=""; print $0}')
+        os_version=$(lsb_release -ds)
     fi
 
     serial="None"
@@ -163,7 +175,7 @@ printf "%-20s %s\n" "Virtual Cores:" "$virt_cores"
 printf "%-20s %s\n" "Total Memory:" "$ttl_mem"
 printf "%-20s %s\n" "Memory Used:" "$mem"
 printf "%-20s %s (Tx/Rx: %s)\n" "Internal IP:" "$int_ip" "$txrx"
-printf "%-20s %s (%s)\n" "External IP:" "$ext_ip" "$ext_hn"
+#printf "%-20s %s (%s)\n" "External IP:" "$ext_ip" "$ext_hn"
 
 # if docker is install, print stats
 if [ $has_docker -eq 1 ]; then
