@@ -2,6 +2,7 @@
 
 # update_myrepos.sh - update all my repos under the current tree
 
+fail=0
 keys=( "$HOME/.ssh/github.com/id_ed25519" 
        "$HOME/.ssh/gogs/id_ed25519" ) 
 
@@ -16,6 +17,17 @@ magenta=$(tput setaf 5)  # COLOR_MAGENTA/RGB:255,0,255
 cyan=$(tput setaf 6)     # COLOR_CYAN/RGB:0,255,255
 white=$(tput setaf 7)    # COLOR_WHITE/RGB:255,255,255
 
+for i in ${keys[@]}; do
+    if ! [ -f "$i" ]; then
+        echo "Key doesn't exist: $i"
+        let fail+=1
+    fi
+done
+
+if [ "$fail" -ne 0 ]; then
+    echo "ERROR: Unable to find key(s)!"
+    exit 1
+fi
 
 echo "Checking for ssh-agent..."
 
