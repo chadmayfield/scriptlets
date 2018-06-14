@@ -43,15 +43,25 @@ command -v ifconfig >/dev/null 2>&1 || \
 # if docker is installed set some variables
 if [ $has_docker -eq 1 ]; then
     if [[ $OSTYPE =~ "linux" ]]; then
+        # check if current user is in docker group
+        does_user_exist=$(grep docker* /etc/group | grep -c "$(whoami)")
+        
+        if [ "$does_user_exist" -ge 1 ] || [ "$uid" -eq 0 ]; then
+            docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')
+            running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}')
+        else
+            docver=">>>FOR THIS STAT, RUN AS ROOT<<<"
+            running=">>>FOR THIS STAT, RUN AS ROOT<<<"
+        fi
+
         docip=$(ifconfig docker0 | grep "inet " | awk '{print $2}' |grep -v ":")
         int_ip=$(ifconfig | grep "inet.*broadcast" | grep -v "$docip" | \
                  awk '{print $2}')
-    else
+    elif [[ $OSTYPE =~ "darwin" ]]; then
+        docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')                         
+        running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}') 
         int_ip=$(ifconfig | grep "inet.*broadcast" | awk '{print $2}')
     fi
-
-    docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')
-    running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}')
 else
     int_ip=$(ifconfig | grep "inet.*broadcast" | awk '{print $2}')
 fi
@@ -171,11 +181,19 @@ printf "%-20s %s\n" "Load Average:" "$load"
 printf "%-20s %s\n" "Processor:" "$cpu_model"
 printf "%-20s %s\n" "Core Count:" "$cores"
 printf "%-20s %s\n" "Virtual Cores:" "$virt_cores"
-#printf "%-20s %s\n" "Flags:" "$flags"
+
+#if [[ $OSTYPE =~ "linux" ]]; then
+#    printf "%-20s %s" "Flags:"
+#    echo "$proc_flags" | fold -s -w 59 | sed -e "2,\$s/^/$(echo $'\t' | pr -Te21)/"
+#fi
+
 printf "%-20s %s\n" "Total Memory:" "$ttl_mem"
 printf "%-20s %s\n" "Memory Used:" "$mem"
 printf "%-20s %s (Tx/Rx: %s)\n" "Internal IP:" "$int_ip" "$txrx"
-#printf "%-20s %s (%s)\n" "External IP:" "$ext_ip" "$ext_hn"
+
+if ! [[ $OSTYPE =~ "darwin" ]]; then
+    printf "%-20s %s (%s)\n" "External IP:" "$ext_ip" "$ext_hn"
+fi
 
 # if docker is install, print stats
 if [ $has_docker -eq 1 ]; then
