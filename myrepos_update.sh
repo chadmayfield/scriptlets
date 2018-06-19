@@ -2,6 +2,9 @@
 
 # update_myrepos.sh - update all my repos under the current tree
 
+# author  : Chad Mayfield (chad@chd.my)
+# license : gplv3
+
 fail=0
 keys=( "$HOME/.ssh/github.com/id_ed25519" 
        "$HOME/.ssh/gogs/id_ed25519" ) 
@@ -77,13 +80,13 @@ else
 fi
 
 for i in "${keys[@]}"; do
-        # grab key fingerprint
+    # grab key fingerprint
     cmp_key=$(ssh-keygen -lf $i)
         
-        # if key fingerprint not found in fingerprint list, add it
-        if [ $(ssh-add -l | grep -c "$cmp_key") -eq 0 ]; then
+    # if key fingerprint not found in fingerprint list, add it
+    if [ $(ssh-add -l | grep -c "$cmp_key") -eq 0 ]; then
         echo "Key not found! Adding it..."
-                ssh-add $i
+        ssh-add $i
         add_rv=$?
 
         if [ $add_rv -eq 0 ]; then
@@ -98,26 +101,24 @@ done
 echo "Pulling updates..."
 for i in $(find $(pwd) -name .git | sed 's/\/.git//g' | sort)
 do
-        (
+    (
     cd "$i"
 
     if [ -e .git ]; then
         repo=$(git config --local -l | grep "remote.origin.url" | awk -F "=" '{print $2}')
         echo " "
 
-                if [[ $repo =~ "@" ]]; then
+        if [[ $repo =~ "@" ]]; then
             repotype="SSH"
-                else
-                        repotype="HTTPS"
-                fi
+        else
+            repotype="HTTPS"
+        fi
 
         echo "====================================================="
         echo "${bold}Found repo ($repotype): ${yellow}$repo${normal}"
         echo "Pulling latest changes..."
         git pull
-#               git pull --tags
-    else
-        :
+        #git pull --tags
     fi
     )
 done
