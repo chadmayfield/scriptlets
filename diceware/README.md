@@ -1,0 +1,1 @@
+# scriptlets: diceware
