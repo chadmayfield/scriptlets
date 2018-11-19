@@ -6,8 +6,8 @@
 # license : gplv3
 
 fail=0
-keys=( "$HOME/.ssh/github.com/id_ed25519" 
-       "$HOME/.ssh/gogs/id_ed25519" ) 
+keys=( "$HOME/.ssh/src/id_ed25519" 
+       "$HOME/.ssh/src/OLD/gogs/id_ed25519" ) 
 
 bold=$(tput bold)       
 normal=$(tput sgr0)
@@ -101,6 +101,10 @@ done
 echo "Pulling updates..."
 for i in $(find $(pwd) -name .git | sed 's/\/.git//g' | sort)
 do
+    if [ "$i" = "go" ]; then
+        break                                                                   
+    fi
+
     (
     cd "$i"
 
@@ -120,6 +124,7 @@ do
         git pull
         #git pull --tags
     fi
+    cd -
     )
 done
 
