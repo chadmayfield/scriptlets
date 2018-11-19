@@ -6,6 +6,10 @@
 # git status all repositories in tree
 for i in $(ls -d */)
 do
+    if [ "$i" = "go" ]; then
+        break
+    fi
+
     cd $i
 
     if [ -e .git ]; then
