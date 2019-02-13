@@ -20,8 +20,8 @@ if [[ $1 =~ "help" ]]; then
     exit 1
 fi
 
-# read ipinfo.io token
-tokenpath="$HOME/.ipinfo_token"
+# source secret tokens
+tokenpath="$HOME/.secrets"
 if [ -f "$tokenpath" ]; then
     source "$tokenpath"
 else
@@ -67,7 +67,7 @@ else
 fi
 
 # get external ip address
-command curl -s "https://ipinfo.io?token=${TOKEN}" > /tmp/ext_ip || \
+command curl -s "https://ipinfo.io?token=${IPINFO_KEY}" > /tmp/ext_ip || \
     { echo >&2 "ERROR: You must be connected to the internet!"; exit 1; }
 ext_ip=$(grep ip /tmp/ext_ip | awk '{gsub(/[",]/, ""); print $2}')
 ext_hn=$(grep hostname /tmp/ext_ip | awk '{gsub(/[",]/, ""); print $2}')
