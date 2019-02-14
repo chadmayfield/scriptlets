@@ -120,17 +120,16 @@ elif [[ $OSTYPE =~ "linux" ]]; then
         os_version=$(lsb_release -ds)
     fi
 
-    serial="None"
-
     # test whether user can use dmidecode
     a=$( { dmidecode -q > /tmp/dmitest; rm -f /tmp/dmitest; } 2>&1)
     if [[ $a =~ "denied" ]]; then
         hw=">>>FOR THIS STAT, RUN AS ROOT<<<"
+        serial=">>>FOR THIS STAT, RUN AS ROOT<<<"
         uuid=">>>FOR THIS STAT, RUN AS ROOT<<<"
     else
-        hw=$(dmidecode --type system | grep -E 'Manuf|Product'|\
-             awk -F ": " '{print $2}' | paste -sd ' ' -)
-        uuid=$(dmidecode | grep "UUID:" | awk '{print $2}')
+        hw=$(dmidecode -s system-product-name)
+	serial="$(dmidecode -s system-serial-number)"
+        uuid=$(dmidecode -s system-uuid)
     fi
 
     # get load stats
@@ -198,12 +197,14 @@ fi
 if [ $has_docker -eq 1 ]; then
     printf "%-20s %s\n" "Docker Version:" "$docver"
 
-    if [ $(docker ps | grep -v IMAGE | wc -l) -ne 0 ]; then
-        printf "%-20s %s %s\n" "Containers:" "CONTAINER ID       NAME"
-        for i in ${running[@]}
-        do
-            printf "%-20s %s\n" "" "$(echo $i | awk -F"|" '{print $1"\t"$2}')"
-        done
+    if [ "$UID" -eq 0 ]; then
+        if [ $(docker ps | grep -v IMAGE | wc -l) -ne 0 ]; then
+            printf "%-20s %s %s\n" "Containers:" "CONTAINER ID       NAME"
+            for i in ${running[@]}
+            do
+                printf "%-20s %s\n" "" "$(echo $i | awk -F"|" '{print $1"\t"$2}')"
+            done
+        fi
     fi
 fi
 
