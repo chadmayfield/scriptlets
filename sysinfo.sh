@@ -46,7 +46,7 @@ if [ $has_docker -eq 1 ]; then
         # check if current user is in docker group
         does_user_exist=$(grep docker* /etc/group | grep -c "$(whoami)")
         
-        if [ "$does_user_exist" -ge 1 ] || [ "$uid" -eq 0 ]; then
+        if [ "$does_user_exist" -ge 1 ] || [ "$UID" -eq 0 ]; then
             docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')
             running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}')
         else
@@ -55,8 +55,7 @@ if [ $has_docker -eq 1 ]; then
         fi
 
         docip=$(ifconfig docker0 | grep "inet " | awk '{print $2}' |grep -v ":")
-        int_ip=$(ifconfig | grep "inet.*broadcast" | grep -v "$docip" | \
-                 awk '{print $2}')
+        int_ip=$(ip -br -4 addr | grep UP | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
     elif [[ $OSTYPE =~ "darwin" ]]; then
         docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')                         
         running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}') 
