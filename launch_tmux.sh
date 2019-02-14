@@ -129,6 +129,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
 
         # attach to main session
         tmux -2 attach-session -t main
+
     # check hostnames and apply create env for each machine
     elif [[ "$(hostname)" =~ (deimos|ISFL) ]] && [[ "$IP" =~ "76.133" ]]; then
         # start a new 'main' session detached
@@ -231,7 +232,11 @@ if [[ $OSTYPE =~ "linux" ]]; then
         exit 1
     fi
 elif [[ $OSTYPE =~ "darwin" ]]; then
-    if [[ "$(hostname -s)" =~ "MBP" ]]; then
+   
+    # grab internal IPv4 address and check it
+    IP="$(ifconfig en0 | grep 'inet ' | awk '{print $2}')"
+
+    if [[ "$(hostname -s)" =~ "MBP" ]] && [[ "$IP" =~ "7.10" ]]; then
         # start a new 'main' session detached
         tmux new-session -s "main" -d -n "dev"
 
