@@ -22,7 +22,7 @@ fi
 
 # source secret tokens
 tokenpath="$HOME/.secrets"
-if [ -f "$tokenpath" ]; then
+if [ -f "$tokenpath" ] || [ -L "$tokenpath" ]; then
     source "$tokenpath"
 else
     echo "ERROR: $tokenpath doesn't exist!"
@@ -104,7 +104,10 @@ if [[ $OSTYPE =~ "darwin" ]]; then
     mem=$(top -l 1 -s 0 | grep PhysMem | awk -F ': ' '{print $2}') 
 
     # additional network information
-    txrx="$(netstat -ib -I en0 | grep -v Name | head -n1 | awk '{print $10}') bytes"
+    rxb="$(netstat -ib -I en0 | grep -v Name | head -n1 | awk '{print $7}')"
+    rx="$(echo ${rxb}/1024/1024 | bc) MB"
+    txb="$(netstat -ib -I en0 | grep -v Name | head -n1 | awk '{print $10}')"
+    tx="$(echo ${txb}/1024/1024 | bc) MB"
     conn=$(netstat -anf inet | awk '{print $5}' | grep [0-9] | \
        grep -vE 'x|127.0.0.1' | awk -F . '{print $1"."$2"."$3"."$4}' |sort -u)
 
