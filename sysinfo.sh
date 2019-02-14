@@ -79,6 +79,7 @@ if [[ $OSTYPE =~ "darwin" ]]; then
     os_name=$(sw_vers -productName)
     os_version=$(sw_vers -productVersion)
     os_build=$(sw_vers -buildVersion)
+    #ioreg -l | grep IOPlatformSerialNumber
     serial=$(system_profiler SPHardwareDataType | awk '/Serial/ {print $4}')
     # get hw version: http://apple.stackexchange.com/a/98089
     hw=$(curl -s https://support-sp.apple.com/sp/product?cc=$(echo $serial | \
