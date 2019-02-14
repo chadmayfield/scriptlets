@@ -6,8 +6,7 @@
 # license : gplv3
 
 fail=0
-keys=( "$HOME/.ssh/src/id_ed25519" 
-       "$HOME/.ssh/src/OLD/gogs/id_ed25519" ) 
+keys=( "$HOME/.ssh/src/id_ed25519" )
 
 bold=$(tput bold)       
 normal=$(tput sgr0)
