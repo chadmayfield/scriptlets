@@ -149,6 +149,8 @@ if [[ $OSTYPE =~ "linux" ]]; then
         # run these commands in created panes
         tmux send-keys -t 0 C-z 'cd ~/Code/' Enter
         tmux send-keys -t 1 C-z 'ssh file' Enter
+        # dont forget to add user to sudoers like this;
+        # username ALL=(ALL) NOPASSWD: /usr/local/bin/sysinfo.sh
         tmux send-keys -t 2 'if ! /usr/local/bin/sysinfo.sh; then curl -sSL https://git.io/fhQAQ | sudo bash; fi' Enter
         tmux select-pane -t main:0
 
