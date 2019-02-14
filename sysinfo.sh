@@ -148,8 +148,10 @@ elif [[ $OSTYPE =~ "linux" ]]; then
     mem=$(free -th |grep Mem: |awk '{print $3" used (of "$2"), "$4" unused. "}')
 
     # additional network information
-    txrx=$(ifconfig | grep -A3 $int_ip | awk '/RX/ {print $6" "$7}' | \
+    rx=$(ifconfig | grep -A3 $int_ip | awk '/RX packets/ {print $6" "$7}' | \
             sed -e 's/[()]//g')
+    tx=$(ifconfig | grep -A6 $int_ip | awk '/TX packets/ {print $6" "$7}' | \
+	    sed -e 's/[()]//g')
     conn=$(netstat -nat | awk '{print $5}' | grep [0-9] | \
            grep -vE 'x|127.0.0.1|0.0.0.0' | awk -F ":" '{print $1}')
 
@@ -187,7 +189,7 @@ printf "%-20s %s\n" "Virtual Cores:" "$virt_cores"
 
 printf "%-20s %s\n" "Total Memory:" "$ttl_mem"
 printf "%-20s %s\n" "Memory Used:" "$mem"
-printf "%-20s %s (Tx/Rx: %s)\n" "Internal IP:" "$int_ip" "$txrx"
+printf "%-20s %s (Tx/Rx: %s)\n" "Internal IP:" "$int_ip" "$tx/$rx"
 
 if ! [[ $OSTYPE =~ "darwin" ]]; then
     printf "%-20s %s (%s)\n" "External IP:" "$ext_ip" "$ext_hn"
