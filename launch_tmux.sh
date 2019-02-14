@@ -15,8 +15,11 @@
 # view panes: #{session_name}:#{window_index}.#{pane_index}
 
 if [[ $OSTYPE =~ "linux" ]]; then
+    # get current IP address, to make sure we're on the correct network
+    IP="$(ip -br -4 addr | grep UP | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")"
+
     # check hostnames and apply create env for each machine
-    if [[ "$(hostname)" =~ "phobos" ]]; then
+    if [[ "$(hostname)" =~ "phobos" ]] && [[ "$IP" =~ "73.196" ]]; then
         # start a new 'main' session detached
         tmux new-session -s "main" -d -n "dev1"
 
@@ -127,7 +130,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
         # attach to main session
         tmux -2 attach-session -t main
     # check hostnames and apply create env for each machine
-    elif [[ "$(hostname)" =~ (deimos|ISFL) ]]; then
+    elif [[ "$(hostname)" =~ (deimos|ISFL) ]] && [[ "$IP" =~ "76.133" ]]; then
         # start a new 'main' session detached
         tmux new-session -s "main" -d -n "dev"
 
@@ -145,7 +148,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
         # run these commands in created panes
         tmux send-keys -t 0 C-z 'cd ~/Code/' Enter
         tmux send-keys -t 1 C-z 'ssh file' Enter
-        tmux send-keys -t 2 'curl -sSL https://git.io/fhQAQ | bash' Enter
+        tmux send-keys -t 2 'if ! /usr/local/bin/sysinfo.sh; then curl -sSL https://git.io/fhQAQ | sudo bash; fi' Enter
         tmux select-pane -t main:0
 
         ######## create a new window: admin (for sysadmin-y things)
@@ -163,7 +166,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
         tmux send-keys -t 0 C-z 'ssh file' Enter
         tmux send-keys -t 1 C-z 'who' Enter
         tmux send-keys -t 2 C-z 'last' Enter
-        tmux send-keys -t 3 'curl -sSL https://git.io/fhQAQ | bash' Enter
+        tmux send-keys -t 3 'if ! /usr/local/bin/sysinfo.sh; then curl -sSL https://git.io/fhQAQ | sudo bash; fi' Enter
         tmux select-pane -t 0
 
         ######## create a new window: k8s1 (work with k8s cluster 1)
@@ -207,7 +210,6 @@ if [[ $OSTYPE =~ "linux" ]]; then
 
         # split windows into panes
         tmux split-window -h
-        tmux split-window -h
         tmux select-layout even-horizontal
         tmux select-pane -t 0
         tmux split-window -v -p 50
@@ -247,7 +249,7 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
 
         # run these commands in created panes
         tmux send-keys -t 0 C-z 'cd ~/Code/' Enter
-        tmux send-keys -t 0 'curl -sSL https://git.io/fhQAQ | bash' Enter
+        tmux send-keys -t 0 'if ! /usr/local/bin/sysinfo.sh; then curl -sSL https://git.io/fhQAQ | bash; fi' Enter
         tmux send-keys -t 1 C-z 'ssh file' Enter
         tmux send-keys -t 1 "ls" C-m
         tmux send-keys -t 2 C-z 'ssh file' Enter
