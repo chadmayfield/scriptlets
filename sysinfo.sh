@@ -55,7 +55,7 @@ if [ $has_docker -eq 1 ]; then
         fi
 
         docip=$(ifconfig docker0 | grep "inet " | awk '{print $2}' |grep -v ":")
-        int_ip=$(ip -br -4 addr | grep UP | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+        int_ip=$(ip -br -4 addr | grep -v docker* | grep UP | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
     elif [[ $OSTYPE =~ "darwin" ]]; then
         docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')                         
         running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}') 
