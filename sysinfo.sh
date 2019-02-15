@@ -17,6 +17,8 @@ if [[ $1 =~ "help" ]]; then
     echo ""
     echo "To view info AND established connections;"
     echo "  $0 --connections"
+    echo "To view running docker containers;"
+    echo "  $0 --containers"
     exit 1
 fi
 
@@ -55,7 +57,7 @@ if [ $has_docker -eq 1 ]; then
         fi
 
         docip=$(ifconfig docker0 | grep "inet " | awk '{print $2}' |grep -v ":")
-        int_ip=$(ip -br -4 addr | grep -v docker* | grep UP | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
+        int_ip=$(ip -br -4 addr | grep -vE 'docker*|weave' | grep UP | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")
     elif [[ $OSTYPE =~ "darwin" ]]; then
         docver=$(docker version |grep -A3 Server | awk '/Version/ {print $2}')                         
         running=$(docker ps | grep -v CONTAINER | awk '{print $1"|"$NF}') 
@@ -132,6 +134,7 @@ elif [[ $OSTYPE =~ "linux" ]]; then
         uuid=">>>FOR THIS STAT, RUN AS ROOT<<<"
     else
         hw=$(dmidecode -s system-product-name)
+	manuf=$(dmidecode -s system-manufacturer)
 	serial="$(dmidecode -s system-serial-number)"
         uuid=$(dmidecode -s system-uuid)
     fi
@@ -177,7 +180,7 @@ else
 fi
 
 printf "%-20s %s\n" "Kernel:" "$kernel"
-printf "%-20s %s\n" "HW Version:" "$hw"
+printf "%-20s %s\n" "HW Version:" "$manuf $hw"
 printf "%-20s %s\n" "HW Serial:" "$serial"
 printf "%-20s %s\n" "HW UUID:" "$uuid"
 printf "%-20s %s\n" "Uptime:" "$up"
@@ -203,19 +206,21 @@ fi
 if [ $has_docker -eq 1 ]; then
     printf "%-20s %s\n" "Docker Version:" "$docver"
 
-    if [ "$UID" -eq 0 ]; then
-        if [ $(docker ps | grep -v IMAGE | wc -l) -ne 0 ]; then
-            printf "%-20s %s %s\n" "Containers:" "CONTAINER ID       NAME"
-            for i in ${running[@]}
-            do
-                printf "%-20s %s\n" "" "$(echo $i | awk -F"|" '{print $1"\t"$2}')"
-            done
+    if [[ $1 =~ "containers" ]] || [[ $2 =~ "containers" ]]; then
+        if [ "$UID" -eq 0 ]; then
+            if [ $(docker ps | grep -v IMAGE | wc -l) -ne 0 ]; then
+                printf "%-20s %s %s\n" "Containers:" "CONTAINER ID       NAME"
+                for i in ${running[@]}
+                do
+                    printf "%-20s %s\n" "" "$(echo $i | awk -F"|" '{print $1"\t"$2}')"
+                done
+            fi
         fi
     fi
 fi
 
 # print current connections is arg is connections
-if [[ $1 =~ "connections" ]]; then
+if [[ $1 =~ "connections" ]] || [[ $2 =~ "connections" ]]; then
     printf "%-20s %s\n" "Current Connections:" "$int_ip"
     for i in ${conn[@]}
     do
