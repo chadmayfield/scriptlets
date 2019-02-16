@@ -133,10 +133,10 @@ elif [[ $OSTYPE =~ "linux" ]]; then
         serial=">>>FOR THIS STAT, RUN AS ROOT<<<"
         uuid=">>>FOR THIS STAT, RUN AS ROOT<<<"
     else
-        hw=$(dmidecode -s system-product-name)
-	    manuf=$(dmidecode -s system-manufacturer)
+        hw="$(dmidecode -s system-product-name)"
+	    manuf="$(dmidecode -s system-manufacturer) "
 	    serial="$(dmidecode -s system-serial-number)"
-        uuid=$(dmidecode -s system-uuid)
+        uuid="$(dmidecode -s system-uuid)"
     fi
 
     # get load stats
