@@ -101,7 +101,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
         tmux send-keys -t 0 C-z 'top' Enter
         tmux send-keys -t 1 C-z 'last' Enter
         tmux send-keys -t 2 C-z 'who' Enter
-        tmux send-keys -t 3 C-z 'echo ssh file' Enter
+        tmux send-keys -t 3 C-z 'ssh file' Enter
         tmux select-pane -t 0
 
         ######## create a new window: misc
@@ -120,7 +120,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
 
         # run these commands in created panes
         tmux send-keys -t 0 C-z 'echo command goes here' Enter
-        tmux send-keys -t 1 C-z 'echo ssh remote server' Enter
+        tmux send-keys -t 1 C-z 'ssh file' Enter
         tmux select-pane -t 0
 
         # switch focus back to main window, pane 0
@@ -230,7 +230,7 @@ if [[ $OSTYPE =~ "linux" ]]; then
         # attach to main session
         tmux -2 attach-session -t main
     else
-        echo "ERROR: Not implemented (UNKNOWN HOST)!"
+        echo "ERROR: Not implemented (UNKNOWN HOST/NETWORK)!"
         exit 1
     fi
 elif [[ $OSTYPE =~ "darwin" ]]; then
@@ -256,7 +256,7 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
 
         # run these commands in created panes
         tmux send-keys -t 0 C-z 'cd ~/Code/' Enter
-        tmux send-keys -t 0 'if ! /usr/local/bin/sysinfo.sh; then curl -sSL https://git.io/fhQAQ | bash; fi' Enter
+        tmux send-keys -t 0 'if ! /usr/local/bin/sysinfo.sh; then curl -sSL https://git.io/fhQAQ | bash; fi; ls' Enter
         tmux send-keys -t 1 C-z 'ssh file' Enter
         tmux send-keys -t 1 "ls" C-m
         tmux send-keys -t 2 C-z 'ssh file' Enter
@@ -274,9 +274,11 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
 
         # run these commands in created panes
         tmux send-keys -t 0 C-z 'ssh plex' Enter
-        tmux send-keys -t 0 "cd /mnt/plex/ && ls" C-m
+        tmux send-keys -t 0 "cd /mnt/plex/ && ls -l" C-m
         tmux send-keys -t 1 C-z 'ssh plex' Enter
-        tmux send-keys -t 1 "cd /mnt/plex/ && ls" C-m
+        tmux send-keys -t 1 "dfh" C-m
+        tmux send-keys -t 2 C-z 'ssh plex' Enter
+        tmux send-keys -t 2 "docker logs plex" C-m
         tmux select-pane -t main:1
 
         ######## create a new window: transmission (transmission environment)
@@ -297,8 +299,8 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
         tmux send-keys -t 2 "dfh" C-m
         tmux select-pane -t main:2
 
-        ######## create a new window: k8s (work with k8s cluster)
-        tmux new-window -t main:3 -n "k8s"
+        ######## create a new window: k8s-prod (work with production k8s cluster)
+        tmux new-window -t main:3 -n "k8s-prod"
 
         # split windows into panes
         tmux split-window -h
@@ -316,15 +318,63 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
         tmux send-keys -t 2 C-z 'ssh k8s-node3' Enter
         tmux send-keys -t 3 C-z 'ssh k8s-node4' Enter
 
+        ######## create a new window: k8s-prod (work with production k8s cluster)
+        tmux new-window -t main:4 -n "k8s-test"
+
+        # split windows into panes
+        tmux split-window -h
+        tmux select-layout even-horizontal
+        tmux select-pane -t 0
+        tmux split-window -v -p 50
+        tmux select-pane -t 2 
+        tmux split-window -v -p 50
+        tmux select-pane -t main:4
+
+        # run these commands in created panes
+        tmux send-keys -t 0 C-z 'ssh k8s-test-node1' Enter
+        tmux send-keys -t 0 "kubectl get nodes && kubectl get po --all-namespaces" C-m
+        tmux send-keys -t 1 C-z 'ssh k8s-test-node2' Enter
+        tmux send-keys -t 2 C-z 'ssh k8s-test-node3' Enter
+        tmux send-keys -t 3 C-z 'ssh k8s-test-node4' Enter
+
+        ######## create a new window: admin (server/network administration)
+        tmux new-window -t main:5 -n "admin"
+
+        # split windows into panes
+        tmux split-window -h
+        tmux select-layout even-horizontal
+        tmux select-pane -t 0
+        tmux split-window -v -p 50
+        tmux select-pane -t 2 
+        tmux split-window -v -p 50
+        tmux select-pane -t main:5
+
+        # run these commands in created panes
+        tmux send-keys -t 0 C-z 'ssh file' Enter
+        tmux send-keys -t 0 "dfh && awk '/^md/ {printf "%s: ", $1}; /blocks/ {print $NF}'  /proc/mdstat;" C-m
+        tmux send-keys -t 1 C-z 'ssh nuc1' Enter
+        tmux send-keys -t 1 "df -h -x tmpfs -x devtmpfs && uptime && ls" C-m
+        tmux send-keys -t 2 C-z 'ssh ns1' Enter
+        tmux send-keys -t 2 "tail /var/log/dnsmasq/dnsmasq.log" C-m
+        tmux send-keys -t 3 C-z 'ssh ns2' Enter
+        tmux send-keys -t 3 "pihole -c -e" C-m
+        tmux select-pane -t main:5
+
         ######## create a new window: misc
-        tmux new-window -t main:4 -n "misc"
+        tmux new-window -t main:6 -n "misc"
 
         # split windows into panes
         tmux split-window -h
         tmux select-layout even-horizontal
         tmux select-pane -t 1 
         tmux split-window -v -p 50
-        tmux select-pane -t main:4
+        tmux select-pane -t main:6
+
+        # run these commands in created panes
+        tmux send-keys -t 0 C-z 'cd ~' Enter
+        tmux send-keys -t 1 C-z 'cd ~' Enter
+        tmux send-keys -t 2 C-z 'cd ~' Enter
+        tmux send-keys -t 3 C-z 'cd ~' Enter
 
         # switch focus back to main window, pane 0
         tmux select-window -t 0
@@ -333,7 +383,7 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
         # attach to main session
         tmux -2 attach-session -t main
     else
-        echo "Not implemented yet!"
+        echo "ERROR: Not implemented (UNKNOWN HOST/NETWORK)!"
         exit 1
     fi
 else
