@@ -14,7 +14,7 @@ url="$1"
 vanity="$2"
 shortener="https://git.io"
 
-if ! [[ "$url" =~ (github.com|githubusercontent.com) ]]; then
+if ! [[ "$url" =~ (github.(com|blog)|githubusercontent.com) ]]; then
     echo "ERROR: Only github.com url's are allowed!"
     exit 1
 else
@@ -41,7 +41,7 @@ else
     if [[ ${short[0]} =~ "201" ]]; then
         echo "Link created: $(echo ${short[1]} | awk '{print $2}')"
     else
-        echo "ERROR: Link creation failed \"${short[0]}\""
+        echo "ERROR: Link creation failed! Code $(echo ${short[0]} | sed 's|Status: ||g')"
     fi
 fi
 
