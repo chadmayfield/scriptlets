@@ -243,8 +243,8 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
         tmux new-session -s "main" -d -n "dev"
 
         # set the status bar for this session
-        #pmset -g batt | grep [0-9][0-9]% | awk ‘NR==1{print$3}’ | cut -c 1–3
-        tmux set status-right '#[fg=red,bold]w#{window_index}.p#{pane_index} #[fg=default,nobold](#(whoami)@#h) %H:%M:%S %d-%b-%y'
+        #pmset -g batt | egrep "([0-9]+\%).*" -o | cut -f1 -d';'
+        tmux set status-right '#[fg=red,bold]w#{window_index}/p#{pane_index} #[fg=default,nobold](#(whoami)@#h) %H:%M:%S %d-%b-%y'
         tmux set status-right-length 80
 
         ######## create a new window: dev1 (dev1 environment)
