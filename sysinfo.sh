@@ -134,8 +134,8 @@ elif [[ $OSTYPE =~ "linux" ]]; then
         uuid=">>>FOR THIS STAT, RUN AS ROOT<<<"
     else
         hw=$(dmidecode -s system-product-name)
-	manuf=$(dmidecode -s system-manufacturer)
-	serial="$(dmidecode -s system-serial-number)"
+	    manuf=$(dmidecode -s system-manufacturer)
+	    serial="$(dmidecode -s system-serial-number)"
         uuid=$(dmidecode -s system-uuid)
     fi
 
@@ -180,7 +180,7 @@ else
 fi
 
 printf "%-20s %s\n" "Kernel:" "$kernel"
-printf "%-20s %s\n" "HW Version:" "$manuf $hw"
+printf "%-20s %s\n" "HW Version:" "${manuf}${hw}"
 printf "%-20s %s\n" "HW Serial:" "$serial"
 printf "%-20s %s\n" "HW UUID:" "$uuid"
 printf "%-20s %s\n" "Uptime:" "$up"
