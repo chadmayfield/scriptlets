@@ -26,7 +26,7 @@ for i in ${USERS[@]}
 do
   sshpass -p "$PASS" ssh-copy-id -f -i "${KEY}.pub" -o StrictHostKeyChecking=no ${i}@${HOST}
   # disable the TMOUT for ssh to we can stay connected
-  ssh -i "$KEY" ${i}@${HOST} 'echo "# CHAD WAS HERE"; echo "unset TMOUT" >> ~/.bashrc'
+  ssh -i "$KEY" ${i}@${HOST} 'echo "# CHAD WAS HERE" >> ~/.bashrc; echo "unset TMOUT" >> ~/.bashrc'
 done
 
 #EOF
