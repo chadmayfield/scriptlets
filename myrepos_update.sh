@@ -97,8 +97,9 @@ for i in "${keys[@]}"; do
 done
 
 # iterate through all child dirs to find git repos
-echo "Pulling updates..."
-for i in $(find . -name .git | sed 's/\/.git//g' | sort)
+DIR="$(pwd)"
+echo "Pulling updates... (${DIR})"
+for i in $(find $DIR -name .git | sed 's/\/.git//g' | sort)
 do
     if [ "$i" = "go" ]; then
         break                                                                   
