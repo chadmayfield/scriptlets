@@ -357,7 +357,7 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
         tmux send-keys -t 2 C-z 'ssh ns1' Enter
         tmux send-keys -t 2 "tail /var/log/dnsmasq/dnsmasq.log" C-m
         tmux send-keys -t 3 C-z 'ssh ns2' Enter
-        tmux send-keys -t 3 "pihole -c -e" C-m
+        tmux send-keys -t 3 "pihole -c -e && curl -s http://${PIHOLE}/admin/api.php?summaryRaw | jq"  C-m
         tmux select-pane -t main:5
 
         ######## create a new window: misc
