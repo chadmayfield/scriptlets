@@ -97,14 +97,10 @@ for i in "${keys[@]}"; do
 done
 
 # iterate through all child dirs to find git repos
-DIR="$(pwd)"
+DIR="$(pwd)/"
 echo "Pulling updates... (${DIR})"
-for i in $(find $DIR -name .git | sed 's/\/.git//g' | sort)
+for i in $(find "$DIR" -name .git | grep -vE "go/src/|.old_repos" | sed 's/\/.git//g' | sort)
 do
-    if [ "$i" = "go" ]; then
-        break                                                                   
-    fi
-
     (
     cd "$i"
 
