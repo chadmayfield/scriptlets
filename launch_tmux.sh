@@ -351,13 +351,13 @@ elif [[ $OSTYPE =~ "darwin" ]]; then
 
         # run these commands in created panes
         tmux send-keys -t 0 C-z 'ssh file' Enter
-        tmux send-keys -t 0 "dfh && awk '/^md/ {printf "%s: ", $1}; /blocks/ {print $NF}'  /proc/mdstat;" C-m
+#        tmux send-keys -t 0 "awk '/^md/ {printf \"%s: \", $1}; /blocks/ {print $NF}' /proc/mdstat;" C-m
         tmux send-keys -t 1 C-z 'ssh nuc1' Enter
-        tmux send-keys -t 1 "df -h -x tmpfs -x devtmpfs && uptime && ls" C-m
+        tmux send-keys -t 1 "df -h && uptime && ls" C-m
         tmux send-keys -t 2 C-z 'ssh ns1' Enter
-        tmux send-keys -t 2 "tail /var/log/dnsmasq/dnsmasq.log" C-m
+        tmux send-keys -t 2 "tail -n 30 /var/log/dnsmasq/dnsmasq.log" C-m
         tmux send-keys -t 3 C-z 'ssh ns2' Enter
-        tmux send-keys -t 3 "pihole -c -e && curl -s http://${PIHOLE}/admin/api.php?summaryRaw | jq"  C-m
+        tmux send-keys -t 3 "pihole -c -e" C-m "curl -s http://${PIHOLE}/admin/api.php?summaryRaw | jq '.' | grep -E 'dns_queries_today|ads_blocked|percent'" C-m
         tmux select-pane -t main:5
 
         ######## create a new window: misc
