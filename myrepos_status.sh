@@ -1,28 +1,22 @@
 #!/bin/bash
 
-# status_myrepos.sh - get status of all my repos under the current tree to make
-#                     sure they don't have uncommitted changes
+# status_myrepos.sh - get status of repos that have changes to commit under current tree
 
-# git status all repositories in tree
-for i in $(ls -d */)
+for i in $(find . -name .git | sed 's/\/.git//g' | sort)
 do
-    if [ "$i" = "go" ]; then
-        break
-    fi
-
     cd $i
 
     if [ -e .git ]; then
         repo=$(git config --local -l | grep "remote.origin.url" | awk -F "=" '{print $2}')
-        echo -e "Found repo: \033[1m$repo\033[0m"
-        #echo "Current changes..."
-        git status -s
-    else
-        :
+
+        # only show repos that have changes
+        if [ $(git status -s | wc -l | awk '{print $1}') -gt 0 ]; then
+            echo -e "Found repo: \033[1m$repo\033[0m"
+            git status -s
+        fi
     fi
 
-    cd ..
-#    sleep 2
+    cd - > /dev/null 2>&1
 done
 
 #EOF

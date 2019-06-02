@@ -120,7 +120,7 @@ do
         git pull
         #git pull --tags
     fi
-    cd -
+    cd - > /dev/null 2>&1
     )
 done
 
