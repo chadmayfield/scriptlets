@@ -11,7 +11,8 @@ do
 
         # only show repos that have changes
         if [ $(git status -s | wc -l | awk '{print $1}') -gt 0 ]; then
-            echo -e "Found repo: \033[1m$repo\033[0m"
+            echo -e "Repo : \033[1m$repo\033[0m"
+            echo -e "Path : \033[0;34m$(pwd)\033[0m"
             git status -s
         fi
     fi
