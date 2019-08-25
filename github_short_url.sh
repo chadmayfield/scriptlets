@@ -15,33 +15,37 @@ vanity="$2"
 shortener="https://git.io"
 
 if ! [[ "$url" =~ (github.(com|blog)|githubusercontent.com) ]]; then
-    echo "ERROR: Only github.com url's are allowed!"
+    echo "ERROR: Only github.com URLs are allowed!"
     exit 1
 else
     if [ ! -z ${vanity+x} ]; then
-        # vanity url was requestedi
-        # mapfile, only for bash v4.0+
-#        mapfile -t short < <( curl -i "$shortener" -F "url=${url}" -F "code=${vanity}" | grep -E "(Status|Location): " )
-
-        # work around for ancient version of bash on macOS
-        while IFS= read -r line; do
-            short+=( "$line" )
-        done < <( curl -si "$shortener" -F "url=${url}" -F "code=${vanity}" | grep -E "(Status|Location): " )
-
+        # vanity url was requested
+        if [[ $OSTYPE =~ "darwin" ]]; then
+            # work around for ancient version of bash on macOS
+            while IFS= read -r line; do
+                short+=( "$line" )
+            done < <( curl -si "$shortener" -H "User-Agent: curl/7.58.0" -F "url=${url}" -F "code=${vanity}" | grep -E "(Status|Location): " )
+        else
+            # mapfile, only for bash v4.0+
+            mapfile -t short < <( curl -i "$shortener" -H "User-Agent: curl/7.58.0" -F "url=${url}" -F "code=${vanity}" | grep -E "(Status|Location): " )
+        fi
     else
-        # mapfile, only for bash v4.0+
-#        mapfile -t short < <( curl -i "$shortener" -F "url=${url}" | grep -E "(Status|Location): " )
-
-        # work around for ancient version of bash on macOS
-        while IFS= read -r line; do
-            short+=( "$line" )
-        done < <( curl -si "$shortener" -F "url=${url}" | grep -E "(Status|Location): " )
+        if [[ $OSTYPE =~ "darwin" ]]; then
+            # work around for ancient version of bash on macOS
+            while IFS= read -r line; do
+                short+=( "$line" )
+            done < <( curl -si "$shortener" -H "User-Agent= curl/7.58.0" -F "url=${url}" | grep -E "(Status|Location): " )
+        else
+            # mapfile, only for bash v4.0+
+            mapfile -t short < <( curl -H "User-Agent= curl/7.58.0" -i "$shortener" -F "url=${url}" | grep -E "(Status|Location): " )
+        fi
     fi
 
     if [[ ${short[0]} =~ "201" ]]; then
-        echo "Link created: $(echo ${short[1]} | awk '{print $2}')"
+        echo "Link created: $(echo "${short[1]}" | awk '{print $2}')"
     else
-        echo "ERROR: Link creation failed! Code $(echo ${short[0]} | sed 's|Status: ||g')"
+       # echo "ERROR: Link creation failed! Code $(echo ${short[0]} | sed 's|Status: ||g')"
+        echo "ERROR: Link creation failed! Code ${short[0]//Status: /}"
     fi
 fi
 
